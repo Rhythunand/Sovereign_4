@@ -1441,7 +1441,7 @@
 
             async signupUser() {
                 try {
-                    const r = await fetch(`${this.API_URL}/signup`, {
+                    const r = await fetch(`${this.API_URL}/api/signup`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(this.userSignupForm)
@@ -1706,6 +1706,7 @@
 </body>
 
 </html>
+
 
 
 
