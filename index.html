@@ -129,7 +129,7 @@
             </button>
             
             <button @click="goTo('admin')" class="opacity-50 hover:opacity-100 transition-opacity border-b border-transparent hover:border-current">CMS</button>
-            <button x-show="isLoggedIn" @click="logout()" 
+            <button x-show="isAdminLoggedIn" @click="logout()" 
                     class="px-4 py-2 border border-red-500/30 text-red-500 text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">
                 Logout
             </button>
@@ -426,7 +426,7 @@
     <template x-if="view === 'admin'">
         <div class="min-h-screen bg-white dark:bg-stone-950">
             
-            <template x-if="!isLoggedIn">
+            <template x-if="!isAdminLoggedIn">
                 <div class="max-w-md mx-auto mt-32 p-8 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-xl rounded-xl">
                     <h2 class="font-display text-2xl mb-6 text-center dark:text-white tracking-widest">
                         Curator Authentication
@@ -457,7 +457,7 @@
                 </div>
             </template>
 
-            <template x-if="isLoggedIn">
+            <template x-if="isAdminLoggedIn">
                 <section class="w-full max-w-7xl mx-auto px-6 pt-32 pb-20">
                     
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
@@ -478,7 +478,7 @@
      and BEFORE the <div class="grid lg:grid-cols-3 gap-12">
    =========================== -->
                     <section
-                        x-show="isLoggedIn"
+                        x-show="isAdminLoggedIn"
                         x-cloak
                         x-transition
                         class="max-w-7xl mx-auto px-6 pb-8 space-y-6"
@@ -930,7 +930,7 @@
             selectedProduct: {},
 
             /* ---------- ADMIN STATE ---------- */
-            isLoggedIn: false,
+            isAdminLoggedIn: false,
             loginForm: { password: '' },
             authError: '',
             selectedEditId: null,
@@ -989,7 +989,7 @@
 
 
 
-            API_URL: 'https://sovereign-backend-6pcz.onrender.com/',
+            API_URL: 'https://sovereign-backend-6pcz.onrender.com',
 
             /* =======================
             INIT (ONLY ONE)
@@ -1373,7 +1373,7 @@
                     }
 
                     localStorage.setItem("adminToken", data.token);
-                    this.isLoggedIn = true;
+                    this.isAdminLoggedIn = true;
                     this.authError = "";
 
                     // ✅ LOAD DASHBOARD AFTER LOGIN
@@ -1434,7 +1434,7 @@
 
             logout() {
             localStorage.removeItem('adminToken');
-            this.isLoggedIn = false;
+            this.isAdminLoggedIn = false;
             this.view = 'catalog';
             this.notify('Logged Out', 'Session ended');
             },
@@ -1706,6 +1706,7 @@
 </body>
 
 </html>
+
 
 
 
