@@ -110,7 +110,7 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest">
+        <div class="hidden md:flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest">
             <button @click="goTo('cart')" class="relative group">
                 <span class="group-hover:text-gold-500 transition-colors">Collection</span>
                 <span x-show="cart.length > 0" x-transition 
@@ -150,7 +150,7 @@
 
     <template x-if="view === 'home'">
         <main class="min-h-screen">
-            <div class="h-screen relative flex items-center justify-center overflow-hidden">
+            <div class="min-h-[100svh] md:h-screen relative flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0">
                     <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=1920&q=80" 
                          class="w-full h-full object-cover brightness-[0.8] dark:brightness-[0.3] scale-105 animate-[pulse_10s_ease-in-out_infinite]">
@@ -379,7 +379,7 @@
     </template>
 
     <template x-if="view === 'cart'">
-        <section class="pt-32 pb-20 px-6 md:px-12 max-w-5xl mx-auto min-h-screen">
+        <section class="pt-24 md:pt-32 pb-20 px-4 md:px-12 max-w-5xl mx-auto min-h-screen">
             <h2 class="font-display text-4xl mb-12 dark:text-white">Acquisition List</h2>
             
             <div x-show="cart.length === 0" class="text-center py-20 border border-dashed border-stone-300 dark:border-stone-700 rounded-lg">
@@ -422,356 +422,368 @@
             </div>
         </section>
     </template>
-
-    <template x-if="view === 'admin'">
-        <div class="min-h-screen bg-white dark:bg-stone-950">
-            
-            <template x-if="!isAdminLoggedIn">
-                <div class="max-w-md mx-auto mt-32 p-8 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-xl rounded-xl">
-                    <h2 class="font-display text-2xl mb-6 text-center dark:text-white tracking-widest">
-                        Curator Authentication
-                    </h2>
-
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-[9px] uppercase tracking-[0.2em] text-stone-500 mb-1 block">Identity</label>
-                            <input type="text" x-model="loginForm.username" placeholder="Username"
-                                class="w-full p-3 bg-white dark:bg-stone-800 outline-none border border-stone-200 dark:border-stone-700 focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
+    <div class="hidden md:block">
+        <template x-if="view === 'admin'">
+            <div class="min-h-screen bg-white dark:bg-stone-950">
+                
+                <template x-if="!isAdminLoggedIn">
+                    <div class="max-w-md mx-auto mt-32 p-8 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-xl rounded-xl">
+                        <h2 class="font-display text-2xl mb-6 text-center dark:text-white tracking-widest">
+                            Curator Authentication
+                        </h2>
+    
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[9px] uppercase tracking-[0.2em] text-stone-500 mb-1 block">Identity</label>
+                                <input type="text" x-model="loginForm.username" placeholder="Username"
+                                    class="w-full p-3 bg-white dark:bg-stone-800 outline-none border border-stone-200 dark:border-stone-700 focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
+                            </div>
+    
+                            <div>
+                                <label class="text-[9px] uppercase tracking-[0.2em] text-stone-500 mb-1 block">Security Key</label>
+                                <input type="password" x-model="loginForm.password" placeholder="Password"
+                                    class="w-full p-3 bg-white dark:bg-stone-800 outline-none border border-stone-200 dark:border-stone-700 focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
+                            </div>
+    
+                            <button @click="login()"
+                                class="w-full py-4 bg-black dark:bg-gold-500 text-white dark:text-black font-bold uppercase text-[10px] tracking-[0.3em] hover:opacity-80 transition-opacity mt-2">
+                                Access Dashboard
+                            </button>
+    
+                            <p x-show="authError" x-text="authError"
+                                class="text-red-500 text-center text-[10px] font-bold uppercase tracking-widest mt-4 bg-red-50 dark:bg-red-900/20 py-2 rounded">
+                            </p>
                         </div>
-
-                        <div>
-                            <label class="text-[9px] uppercase tracking-[0.2em] text-stone-500 mb-1 block">Security Key</label>
-                            <input type="password" x-model="loginForm.password" placeholder="Password"
-                                class="w-full p-3 bg-white dark:bg-stone-800 outline-none border border-stone-200 dark:border-stone-700 focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
-                        </div>
-
-                        <button @click="login()"
-                            class="w-full py-4 bg-black dark:bg-gold-500 text-white dark:text-black font-bold uppercase text-[10px] tracking-[0.3em] hover:opacity-80 transition-opacity mt-2">
-                            Access Dashboard
-                        </button>
-
-                        <p x-show="authError" x-text="authError"
-                            class="text-red-500 text-center text-[10px] font-bold uppercase tracking-widest mt-4 bg-red-50 dark:bg-red-900/20 py-2 rounded">
-                        </p>
                     </div>
-                </div>
-            </template>
-
-            <template x-if="isAdminLoggedIn">
-                <section class="w-full max-w-7xl mx-auto px-6 pt-32 pb-20">
-                    
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
-                        <div>
-                            <h2 class="font-display text-3xl mb-2 dark:text-white tracking-tight">Curator's Console</h2>
-                            <p class="text-sm text-stone-500 font-serif italic">Inventory Management & Archive Authorization</p>
+                </template>
+    
+                <template x-if="isAdminLoggedIn">
+                    <section class="w-full max-w-7xl mx-auto px-6 pt-32 pb-20">
+                        
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+                            <div>
+                                <h2 class="font-display text-3xl mb-2 dark:text-white tracking-tight">Curator's Console</h2>
+                                <p class="text-sm text-stone-500 font-serif italic">Inventory Management & Archive Authorization</p>
+                            </div>
+                            <button @click="resetToSeed()" 
+                                class="text-[10px] text-red-500 font-bold uppercase tracking-widest hover:bg-red-50 dark:hover:bg-red-900/10 px-4 py-2 rounded border border-red-200 dark:border-red-900/30 transition-colors">
+                                Reset Database to Defaults
+                            </button>
+    
                         </div>
-                        <button @click="resetToSeed()" 
-                            class="text-[10px] text-red-500 font-bold uppercase tracking-widest hover:bg-red-50 dark:hover:bg-red-900/10 px-4 py-2 rounded border border-red-200 dark:border-red-900/30 transition-colors">
-                            Reset Database to Defaults
-                        </button>
-
-                    </div>
-
-                    <!-- ===========================
-     ADMIN STATS (Place HERE)
-     Insert immediately AFTER the Curator's header div (the one with mb-12)
-     and BEFORE the <div class="grid lg:grid-cols-3 gap-12">
-   =========================== -->
-                    <section
-                        x-show="isAdminLoggedIn"
-                        x-cloak
-                        x-transition
-                        class="max-w-7xl mx-auto px-6 pb-8 space-y-6"
-                        aria-hidden="false"
-                    >
-                    <!-- =====================
-                        STATS CARDS
-                    ====================== -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <template x-for="card in adminCards" :key="card.label">
-                                <div class="p-5 rounded-2xl glass-panel shadow-lg border border-white/5">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <p
-                                                class="text-sm text-stone-400 uppercase tracking-widest"
-                                                x-text="card.label"
-                                            ></p>
-                                            <p
-                                                class="mt-2 text-2xl font-semibold dark:text-white"
-                                                x-text="card.value"
-                                            ></p>
-                                        </div>
-
-                                        <div
-                                            class="w-10 h-10 rounded-full flex items-center justify-center"
-                                            :class="card.iconBg"
-                                        >
-                                            <svg class="w-5 h-5 text-white" x-html="card.icon"></svg>
+    
+                        <!-- ===========================
+         ADMIN STATS (Place HERE)
+         Insert immediately AFTER the Curator's header div (the one with mb-12)
+         and BEFORE the <div class="grid lg:grid-cols-3 gap-12">
+       =========================== -->
+                        <section
+                            x-show="isAdminLoggedIn"
+                            x-cloak
+                            x-transition
+                            class="max-w-7xl mx-auto px-6 pb-8 space-y-6"
+                            aria-hidden="false"
+                        >
+                        <!-- =====================
+                            STATS CARDS
+                        ====================== -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                <template x-for="card in adminCards" :key="card.label">
+                                    <div class="p-5 rounded-2xl glass-panel shadow-lg border border-white/5">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p
+                                                    class="text-sm text-stone-400 uppercase tracking-widest"
+                                                    x-text="card.label"
+                                                ></p>
+                                                <p
+                                                    class="mt-2 text-2xl font-semibold dark:text-white"
+                                                    x-text="card.value"
+                                                ></p>
+                                            </div>
+    
+                                            <div
+                                                class="w-10 h-10 rounded-full flex items-center justify-center"
+                                                :class="card.iconBg"
+                                            >
+                                                <svg class="w-5 h-5 text-white" x-html="card.icon"></svg>
+                                            </div>
                                         </div>
                                     </div>
+                                </template>
+                            </div>
+    
+                            <!-- =====================
+                                CHART + SALES PANEL
+                            ====================== -->
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                <!-- Chart (2/3 width) -->
+                                <div
+                                    class="lg:col-span-2 p-6 rounded-2xl glass-panel shadow-lg border border-white/5"
+                                >
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h3 class="font-display text-lg dark:text-white">
+                                            Order Summary
+                                        </h3>
+                                        <span class="text-sm text-stone-400">
+                                            Last 12 months
+                                        </span>
+                                    </div>
+    
+                                    <div class="h-[320px]">
+                                        <canvas id="adminChart" class="w-full h-full"></canvas>
+                                    </div>
                                 </div>
-                            </template>
-                        </div>
-
-                        <!-- =====================
-                            CHART + SALES PANEL
-                        ====================== -->
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <!-- Chart (2/3 width) -->
-                            <div
-                                class="lg:col-span-2 p-6 rounded-2xl glass-panel shadow-lg border border-white/5"
-                            >
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="font-display text-lg dark:text-white">
-                                        Order Summary
+    
+                                <!-- Sales Overview (1/3 width) -->
+                                <div
+                                    class="p-6 rounded-2xl glass-panel shadow-lg border border-white/5 flex flex-col"
+                                >
+                                    <h3 class="font-display text-lg mb-4 dark:text-white">
+                                        Sales Overview
                                     </h3>
-                                    <span class="text-sm text-stone-400">
-                                        Last 12 months
-                                    </span>
-                                </div>
-
-                                <div class="h-[320px]">
-                                    <canvas id="adminChart" class="w-full h-full"></canvas>
+    
+                                <!-- Recent Orders -->
+                                    <div class="space-y-4 text-sm flex-1">
+                                        <template x-for="o in recentOrders" :key="o.id">
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <div
+                                                        class="text-sm font-medium dark:text-white"
+                                                            x-text="o.id"
+                                                    ></div>
+                                                    <div
+                                                        class="text-xs text-stone-400"
+                                                        x-text="o.date"
+                                                    ></div>
+                                                </div>
+    
+                                                <div
+                                                    class="text-sm font-medium"
+                                                    :class="o.amount >= 0 ? 'text-green-400' : 'text-red-400'">
+                                                
+                                                    <span
+                                                        x-text="(o.amount >= 0 ? '+' : '-') + '₹' + Math.abs(Number(o.amount)).toLocaleString('en-IN')"
+                                                    ></span>
+                                                </div>
+                                            </div>
+                                        </template>
+    
+                                        <div
+                                            x-show="recentOrders.length === 0"
+                                            class="py-6 text-center text-stone-400">
+                                            No recent orders
+                                        </div>
+                                    </div>
+    
+                                <!-- Total Sales -->
+                                    <div class="mt-6 pt-6 border-t border-white/5">
+                                        <p class="text-sm text-stone-400">Total Sales</p>
+                                        <p
+                                            class="text-2xl font-semibold dark:text-white mt-1"
+                                            x-text="'₹' + Number(dashboardStats.totalRevenue || 0).toLocaleString('en-IN')"
+                                        ></p>
+    
+                                        <div class="mt-4 h-2 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-gradient-to-r from-blue-500 to-blue-400"
+                                                :style="`width: ${Math.min(
+                                                100,
+                                                (dashboardStats.totalRevenue /
+                                                (dashboardStats.revenueTarget || 100000)) * 100
+                                                )}%`"
+                                            ></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Sales Overview (1/3 width) -->
-                            <div
-                                class="p-6 rounded-2xl glass-panel shadow-lg border border-white/5 flex flex-col"
-                            >
-                                <h3 class="font-display text-lg mb-4 dark:text-white">
-                                    Sales Overview
-                                </h3>
-
-                            <!-- Recent Orders -->
-                                <div class="space-y-4 text-sm flex-1">
-                                    <template x-for="o in recentOrders" :key="o.id">
-                                        <div class="flex justify-between items-start">
+                        </section>
+    
+                        <!-- ===========================
+                            END ADMIN STATS
+                        =========================== -->
+    
+    
+                        <div class="grid lg:grid-cols-3 gap-12">
+                            <div class="lg:col-span-1">
+                                <div class="bg-white dark:bg-stone-900 p-8 rounded-2xl shadow-lg border border-stone-100 dark:border-stone-800 sticky top-32">
+                                    <h3 class="font-serif text-xl mb-6 dark:text-white border-b border-stone-100 dark:border-stone-800 pb-4">Acquisition Entry</h3>
+                                    <div x-show="selectedEditId" 
+                                        x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0 -translate-y-2"
+                                        x-transition:enter-end="opacity-100 translate-y-0"
+                                        class="mb-6 p-3 bg-gold-400/10 border border-gold-400/30 rounded-lg flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <span class="relative flex h-2 w-2">
+                                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                                                <span class="relative inline-flex rounded-full h-2 w-2 bg-gold-500"></span>
+                                            </span>
+                                            <p class="text-[10px] font-bold uppercase tracking-widest text-gold-900 dark:text-gold-400">Editing existing item</p>
+                                        </div>
+                                        <button @click="selectedEditId = null; resetForm()" 
+                                                class="text-[9px] uppercase font-bold text-stone-400 hover:text-stone-600 dark:hover:text-white transition-colors">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Artifact Name</label>
+                                            <input type="text" x-model="newItem.name" 
+                                                class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
+                                        </div>
+    
+                                        <div class="grid grid-cols-2 gap-4">
                                             <div>
-                                                <div
-                                                    class="text-sm font-medium dark:text-white"
-                                                        x-text="o.id"
-                                                ></div>
-                                                <div
-                                                    class="text-xs text-stone-400"
-                                                    x-text="o.date"
-                                                ></div>
+                                                <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Price (INR)</label>
+                                                <input type="number" x-model="newItem.price" 
+                                                    class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
                                             </div>
-
-                                            <div
-                                                class="text-sm font-medium"
-                                                :class="o.amount >= 0 ? 'text-green-400' : 'text-red-400'">
-                                            
-                                                <span
-                                                    x-text="(o.amount >= 0 ? '+' : '-') + '₹' + Math.abs(Number(o.amount)).toLocaleString('en-IN')"
-                                                ></span>
+                                            <div>
+                                                <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Category</label>
+                                                <select x-model="newItem.category" 
+                                                    class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all appearance-none">
+                                                    <option value="">Select Category</option>
+                                                    <template x-for="cat in categories.filter(c => c !== 'All')">
+                                                        <option :value="cat" x-text="cat"></option>
+                                                    </template>
+                                                </select>
                                             </div>
                                         </div>
-                                    </template>
-
-                                    <div
-                                        x-show="recentOrders.length === 0"
-                                        class="py-6 text-center text-stone-400">
-                                        No recent orders
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Provenance / Curator's Note</label>
+                                            <textarea x-model="newItem.story" rows="3" 
+                                                placeholder="Describe the journey and history of this artifact..."
+                                                class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all text-sm font-serif italic"></textarea>
+                                        </div>
+                                        <div class="space-y-3">
+                                            <div class="flex justify-between items-center">
+                                                <label class="text-[9px] uppercase tracking-widest text-stone-500 block">Specifications</label>
+                                                <button @click="addLabel()" class="text-[10px] text-gold-500 font-bold hover:underline">+ Add Field</button>
+                                            </div>
+                                            <template x-for="(detail, index) in newItem.details" :key="index">
+                                                <div class="flex gap-2">
+                                                    <input type="text" x-model="detail.label" placeholder="Key" class="w-1/3 p-2 bg-stone-50 dark:bg-stone-800 rounded text-[10px] dark:text-white">
+                                                    <input type="text" x-model="detail.value" placeholder="Value" class="flex-1 p-2 bg-stone-50 dark:bg-stone-800 rounded text-[10px] dark:text-white">
+                                                    <button @click="removeLabel(index)" class="text-red-400 hover:text-red-600 px-1">×</button>
+                                                </div>
+                                            </template>
+                                        </div>
+    
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Gallery Upload</label>
+                                            <input type="file" accept="image/*" multiple @change="handleImageUpload($event)"
+                                                class="block w-full text-[10px] text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-gold-500 file:text-white cursor-pointer hover:file:bg-gold-900 transition-all">
+                                            
+                                            <div class="grid grid-cols-4 gap-2 mt-3" x-show="newItem.images.length > 0">
+                                                <template x-for="(img, index) in newItem.images" :key="index">
+                                                    <div class="relative aspect-square group">
+                                                        <img :src="img" class="w-full h-full object-cover rounded border border-stone-200 dark:border-stone-800">
+                                                        <button @click="newItem.images.splice(index, 1)" 
+                                                            class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+    
+                                        <button @click="addProduct()" 
+                                            class="w-full mt-4 bg-black dark:bg-white text-white dark:text-black py-4 rounded-lg text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-gold-900 transition-colors">
+                                            <span x-text="selectedEditId ? 'Update Entry' : 'Add to Archive'"></span>
+                                        </button>
                                     </div>
                                 </div>
-
-                            <!-- Total Sales -->
-                                <div class="mt-6 pt-6 border-t border-white/5">
-                                    <p class="text-sm text-stone-400">Total Sales</p>
-                                    <p
-                                        class="text-2xl font-semibold dark:text-white mt-1"
-                                        x-text="'₹' + Number(dashboardStats.totalRevenue || 0).toLocaleString('en-IN')"
-                                    ></p>
-
-                                    <div class="mt-4 h-2 bg-white/5 rounded-full overflow-hidden">
-                                        <div
-                                            class="h-full bg-gradient-to-r from-blue-500 to-blue-400"
-                                            :style="`width: ${Math.min(
-                                            100,
-                                            (dashboardStats.totalRevenue /
-                                            (dashboardStats.revenueTarget || 100000)) * 100
-                                            )}%`"
-                                        ></div>
+                            </div>
+    
+                            <div class="lg:col-span-2">
+                                <div class="bg-white dark:bg-stone-900 rounded-2xl shadow-lg border border-stone-100 dark:border-stone-800 overflow-hidden">
+                                    <table class="w-full text-left">
+                                        <thead class="bg-stone-50 dark:bg-black/20 border-b border-stone-100 dark:border-stone-800">
+                                            <tr>
+                                                <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold">Item Details</th>
+                                                <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold">Status</th>
+                                                <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold">Price</th>
+                                                <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-stone-100 dark:divide-stone-800">
+                                            <template x-for="item in products" :key="item.id">
+                                                <tr class="transition-colors duration-500"
+        :class="selectedEditId === item.id ? 'bg-gold-500/10 border-l-4 border-gold-500 dark:bg-gold-500/5' : 'hover:bg-stone-50 dark:hover:bg-stone-800/50'">
+                                                    <td class="p-6">
+                                                        <div class="flex items-center gap-4">
+                                                            <img :src="item.images[0]" class="w-12 h-12 object-cover rounded shadow-sm">
+                                                            <div>
+                                                                <div class="font-serif font-medium dark:text-white" x-text="item.name"></div>
+                                                                <div class="text-[9px] uppercase text-stone-400 tracking-wider" x-text="item.category"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="p-6">
+                                                        <button @click="toggleSold(item.id)" 
+                                                            class="px-3 py-1 rounded-full text-[8px] font-bold uppercase tracking-widest"
+                                                            :class="item.isSold ? 'bg-red-100 text-red-600 dark:bg-red-900/30' : 'bg-green-100 text-green-600 dark:bg-green-900/30'">
+                                                            <span x-text="item.isSold ? 'Sold' : 'Available'"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td class="p-6 text-sm font-medium dark:text-stone-300" x-text="formatCurrency(item.price)"></td>
+                                                    <td class="p-6 text-right space-x-2">
+                                                        <button @click="editProduct(item)" class="text-stone-400 hover:text-gold-500 transition-colors">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2.25 2.25 0 113.182 3.182L12 17H9v-3l8.586-8.586z"/></svg>
+                                                        </button>
+                                                        <button @click="deleteProduct(item.id)" class="text-stone-400 hover:text-red-500 transition-colors">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+    
+                                <div class="mt-8 p-8 bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-2xl">
+                                    <h3 class="font-display text-lg mb-6 dark:text-white tracking-widest border-b border-stone-200 dark:border-stone-800 pb-2">Archive Security Settings</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Current Authorization</label>
+                                            <input type="password" x-model="changeCreds.currentPassword" placeholder="Current Password" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">New Identity</label>
+                                            <input type="text" x-model="changeCreds.newUsername" placeholder="New Username" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">New Security Key</label>
+                                            <input type="password" x-model="changeCreds.newPassword" placeholder="New Password" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Confirm Key</label>
+                                            <input type="password" x-model="changeCreds.confirmPassword" placeholder="Confirm Password" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
+                                        </div>
                                     </div>
+                                    <button @click="changeAdminPassword()" 
+                                        class="mt-6 px-8 py-3 bg-gold-500 text-white text-[10px] uppercase font-bold tracking-widest hover:bg-gold-600 transition-colors shadow-lg shadow-gold-500/20">
+                                        Update Credentials
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </section>
-
-                    <!-- ===========================
-                        END ADMIN STATS
-                    =========================== -->
-
-
-                    <div class="grid lg:grid-cols-3 gap-12">
-                        <div class="lg:col-span-1">
-                            <div class="bg-white dark:bg-stone-900 p-8 rounded-2xl shadow-lg border border-stone-100 dark:border-stone-800 sticky top-32">
-                                <h3 class="font-serif text-xl mb-6 dark:text-white border-b border-stone-100 dark:border-stone-800 pb-4">Acquisition Entry</h3>
-                                <div x-show="selectedEditId" 
-                                    x-transition:enter="transition ease-out duration-200"
-                                    x-transition:enter-start="opacity-0 -translate-y-2"
-                                    x-transition:enter-end="opacity-100 translate-y-0"
-                                    class="mb-6 p-3 bg-gold-400/10 border border-gold-400/30 rounded-lg flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <span class="relative flex h-2 w-2">
-                                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
-                                            <span class="relative inline-flex rounded-full h-2 w-2 bg-gold-500"></span>
-                                        </span>
-                                        <p class="text-[10px] font-bold uppercase tracking-widest text-gold-900 dark:text-gold-400">Editing existing item</p>
-                                    </div>
-                                    <button @click="selectedEditId = null; resetForm()" 
-                                            class="text-[9px] uppercase font-bold text-stone-400 hover:text-stone-600 dark:hover:text-white transition-colors">
-                                        Cancel
-                                    </button>
-                                </div>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Artifact Name</label>
-                                        <input type="text" x-model="newItem.name" 
-                                            class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Price (INR)</label>
-                                            <input type="number" x-model="newItem.price" 
-                                                class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all">
-                                        </div>
-                                        <div>
-                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Category</label>
-                                            <select x-model="newItem.category" 
-                                                class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all appearance-none">
-                                                <option value="">Select Category</option>
-                                                <template x-for="cat in categories.filter(c => c !== 'All')">
-                                                    <option :value="cat" x-text="cat"></option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Provenance / Curator's Note</label>
-                                        <textarea x-model="newItem.story" rows="3" 
-                                            placeholder="Describe the journey and history of this artifact..."
-                                            class="w-full p-3 bg-stone-50 dark:bg-stone-800 rounded border-none outline-none focus:ring-1 focus:ring-gold-500 dark:text-white transition-all text-sm font-serif italic"></textarea>
-                                    </div>
-                                    <div class="space-y-3">
-                                        <div class="flex justify-between items-center">
-                                            <label class="text-[9px] uppercase tracking-widest text-stone-500 block">Specifications</label>
-                                            <button @click="addLabel()" class="text-[10px] text-gold-500 font-bold hover:underline">+ Add Field</button>
-                                        </div>
-                                        <template x-for="(detail, index) in newItem.details" :key="index">
-                                            <div class="flex gap-2">
-                                                <input type="text" x-model="detail.label" placeholder="Key" class="w-1/3 p-2 bg-stone-50 dark:bg-stone-800 rounded text-[10px] dark:text-white">
-                                                <input type="text" x-model="detail.value" placeholder="Value" class="flex-1 p-2 bg-stone-50 dark:bg-stone-800 rounded text-[10px] dark:text-white">
-                                                <button @click="removeLabel(index)" class="text-red-400 hover:text-red-600 px-1">×</button>
-                                            </div>
-                                        </template>
-                                    </div>
-
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Gallery Upload</label>
-                                        <input type="file" accept="image/*" multiple @change="handleImageUpload($event)"
-                                            class="block w-full text-[10px] text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-gold-500 file:text-white cursor-pointer hover:file:bg-gold-900 transition-all">
-                                        
-                                        <div class="grid grid-cols-4 gap-2 mt-3" x-show="newItem.images.length > 0">
-                                            <template x-for="(img, index) in newItem.images" :key="index">
-                                                <div class="relative aspect-square group">
-                                                    <img :src="img" class="w-full h-full object-cover rounded border border-stone-200 dark:border-stone-800">
-                                                    <button @click="newItem.images.splice(index, 1)" 
-                                                        class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">×</button>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-
-                                    <button @click="addProduct()" 
-                                        class="w-full mt-4 bg-black dark:bg-white text-white dark:text-black py-4 rounded-lg text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-gold-900 transition-colors">
-                                        <span x-text="selectedEditId ? 'Update Entry' : 'Add to Archive'"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-2">
-                            <div class="bg-white dark:bg-stone-900 rounded-2xl shadow-lg border border-stone-100 dark:border-stone-800 overflow-hidden">
-                                <table class="w-full text-left">
-                                    <thead class="bg-stone-50 dark:bg-black/20 border-b border-stone-100 dark:border-stone-800">
-                                        <tr>
-                                            <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold">Item Details</th>
-                                            <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold">Status</th>
-                                            <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold">Price</th>
-                                            <th class="p-6 text-[9px] uppercase tracking-widest text-stone-500 font-bold text-right">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-stone-100 dark:divide-stone-800">
-                                        <template x-for="item in products" :key="item.id">
-                                            <tr class="transition-colors duration-500"
-    :class="selectedEditId === item.id ? 'bg-gold-500/10 border-l-4 border-gold-500 dark:bg-gold-500/5' : 'hover:bg-stone-50 dark:hover:bg-stone-800/50'">
-                                                <td class="p-6">
-                                                    <div class="flex items-center gap-4">
-                                                        <img :src="item.images[0]" class="w-12 h-12 object-cover rounded shadow-sm">
-                                                        <div>
-                                                            <div class="font-serif font-medium dark:text-white" x-text="item.name"></div>
-                                                            <div class="text-[9px] uppercase text-stone-400 tracking-wider" x-text="item.category"></div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="p-6">
-                                                    <button @click="toggleSold(item.id)" 
-                                                        class="px-3 py-1 rounded-full text-[8px] font-bold uppercase tracking-widest"
-                                                        :class="item.isSold ? 'bg-red-100 text-red-600 dark:bg-red-900/30' : 'bg-green-100 text-green-600 dark:bg-green-900/30'">
-                                                        <span x-text="item.isSold ? 'Sold' : 'Available'"></span>
-                                                    </button>
-                                                </td>
-                                                <td class="p-6 text-sm font-medium dark:text-stone-300" x-text="formatCurrency(item.price)"></td>
-                                                <td class="p-6 text-right space-x-2">
-                                                    <button @click="editProduct(item)" class="text-stone-400 hover:text-gold-500 transition-colors">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2.25 2.25 0 113.182 3.182L12 17H9v-3l8.586-8.586z"/></svg>
-                                                    </button>
-                                                    <button @click="deleteProduct(item.id)" class="text-stone-400 hover:text-red-500 transition-colors">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="mt-8 p-8 bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-2xl">
-                                <h3 class="font-display text-lg mb-6 dark:text-white tracking-widest border-b border-stone-200 dark:border-stone-800 pb-2">Archive Security Settings</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Current Authorization</label>
-                                        <input type="password" x-model="changeCreds.currentPassword" placeholder="Current Password" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">New Identity</label>
-                                        <input type="text" x-model="changeCreds.newUsername" placeholder="New Username" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">New Security Key</label>
-                                        <input type="password" x-model="changeCreds.newPassword" placeholder="New Password" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="text-[9px] uppercase tracking-widest text-stone-500 mb-1 block">Confirm Key</label>
-                                        <input type="password" x-model="changeCreds.confirmPassword" placeholder="Confirm Password" class="w-full p-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs dark:text-white outline-none">
-                                    </div>
-                                </div>
-                                <button @click="changeAdminPassword()" 
-                                    class="mt-6 px-8 py-3 bg-gold-500 text-white text-[10px] uppercase font-bold tracking-widest hover:bg-gold-600 transition-colors shadow-lg shadow-gold-500/20">
-                                    Update Credentials
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </template>
+                </template>
+            </div>
+        </template>
+    </div>
+    
+    <div class="md:hidden pt-32 px-6 text-center">
+      <template x-if="view === 'admin'">
+        <div class="max-w-sm mx-auto">
+          <p class="text-sm text-stone-500">
+            Admin panel is available on desktop only.
+          </p>
         </div>
-    </template>
+      </template>
+    </div>
+
     <template x-if="view === 'orders'">
-        <section class="pt-32 pb-20 px-6 md:px-12 max-w-5xl mx-auto min-h-screen">
+        <section class="pt-24 md:pt-32 pb-20 px-4 md:px-12 max-w-5xl mx-auto min-h-screen">
             <h2 class="font-display text-4xl mb-12 dark:text-white">
             Order History
             </h2>
@@ -894,7 +906,6 @@
             </div>
         </section>
     </template>
-
 
     <script>
         document.addEventListener('alpine:init', () => {
@@ -1706,6 +1717,7 @@
 </body>
 
 </html>
+
 
 
 
