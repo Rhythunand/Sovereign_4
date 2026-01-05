@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign Antiques · Mobile</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Redirect back to desktop if screen is large -->
+  <script>
+    if (window.innerWidth > 768) {
+      window.location.replace("/");
+    }
+  </script>
+
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0a0a0a] text-stone-100 font-sans">
+
+<!-- ================= HEADER ================= -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#0a0a0a]/90 backdrop-blur border-b border-stone-800">
+  <div class="flex items-center justify-between px-4 py-4">
+    <h1 class="text-lg tracking-widest font-semibold">
+      SOVEREIGN
+    </h1>
+    <button class="text-xs uppercase tracking-wider border border-stone-600 px-3 py-1 rounded-full">
+      Menu
+    </button>
+  </div>
+</header>
+
+<!-- Spacer -->
+<div class="h-20"></div>
+
+<!-- ================= HERO ================= -->
+<section class="px-5 pt-8">
+  <h2 class="text-3xl leading-tight font-light">
+    Preserving<br>
+    <span class="font-semibold">Heritage & History</span>
+  </h2>
+
+  <p class="mt-4 text-sm text-stone-400">
+    Curated antiques. Authenticated legacy. Timeless acquisition.
+  </p>
+
+  <button class="mt-6 w-full bg-stone-100 text-black py-3 rounded-xl text-sm tracking-wide">
+    Explore Collection
+  </button>
+</section>
+
+<!-- ================= FEATURED ITEM ================= -->
+<section class="mt-12 px-5">
+  <p class="text-xs tracking-widest text-stone-400 mb-3">
+    FEATURED
+  </p>
+
+  <div class="rounded-2xl overflow-hidden border border-stone-800">
+    <img
+      src="https://images.unsplash.com/photo-1582582494700-1d1c4c9f6b63"
+      class="w-full h-56 object-cover"
+      alt="Antique"
+    />
+
+    <div class="p-4 bg-[#0f0f0f]">
+      <h3 class="text-lg font-medium">
+        Colonial Brass Vessel
+      </h3>
+
+      <p class="text-xs text-stone-400 mt-1">
+        South India · 19th Century
+      </p>
+
+      <div class="flex items-center justify-between mt-4">
+        <span class="text-sm">₹48,000</span>
+        <button class="text-xs border border-stone-600 px-4 py-2 rounded-full">
+          View
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUICK CATEGORIES ================= -->
+<section class="mt-14 px-5">
+  <p class="text-xs tracking-widest text-stone-400 mb-4">
+    BROWSE
+  </p>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="rounded-xl border border-stone-800 p-4 text-center">
+      <p class="text-sm">Sculptures</p>
+    </div>
+    <div class="rounded-xl border border-stone-800 p-4 text-center">
+      <p class="text-sm">Artifacts</p>
+    </div>
+    <div class="rounded-xl border border-stone-800 p-4 text-center">
+      <p class="text-sm">Paintings</p>
+    </div>
+    <div class="rounded-xl border border-stone-800 p-4 text-center">
+      <p class="text-sm">Jewelry</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="mt-16 px-5">
+  <div class="rounded-2xl bg-stone-900 p-6 border border-stone-800">
+    <h3 class="text-xl font-light">
+      Looking for a rare piece?
+    </h3>
+
+    <p class="text-sm text-stone-400 mt-2">
+      Request acquisition or private viewing.
+    </p>
+
+    <button class="mt-5 w-full border border-stone-600 py-3 rounded-xl text-sm">
+      Contact Sovereign
+    </button>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="mt-20 pb-10 text-center text-xs text-stone-500">
+  <p>© Sovereign Antiques</p>
+  <a href="/" class="underline mt-2 inline-block">
+    Switch to Desktop
+  </a>
+</footer>
+
+</body>
+</html>
