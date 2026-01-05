@@ -1,861 +1,783 @@
-<script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-<script defer src="[https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js](https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js)"></script>
-<script src="[https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js](https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js)"></script>
-<link href="[https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap](https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap)" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en" :class="$store.darkMode.isDark ? 'dark' : ''">
+    <head>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sovereign Antiques | Mobile Collection</title>
 
-<script>
-    tailwind.config = {
-        darkMode: 'class',
-        theme: {
-            extend: {
-                fontFamily: {
-                    sans: ['Inter', 'sans-serif'],
-                    serif: ['Playfair Display', 'serif'],
-                    display: ['Cinzel', 'serif'],
-                },
-                colors: {
-                    gold: {
-                        400: '#D4AF37',
-                        500: '#C5A028',
-                        900: '#5C4812'
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+        <script>
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif'],
+                            display: ['Cinzel', 'serif']
+                        },
+                        colors: {
+                            gold: { 400: '#D4AF37', 500: '#C5A028', 900: '#5C4812' }
+                        }
                     }
                 }
+            };
+        </script>
+
+        <script>
+            if (window.innerWidth > 768) {
+                window.location.replace("/");
             }
-        }
-    }
-</script>
+        </script>
 
-<script>
-    if (window.innerWidth > 768) {
-        window.location.replace("/");
-    }
-</script>
+        <style>
+            [x-cloak] { display: none !important; }
 
-<style>
-    [x-cloak] { display: none !important; }
-    
-    body { 
-        background-color: #fcfcfc; 
-        color: #1a1a1a; 
-        transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s;
-        -webkit-font-smoothing: antialiased;
-    }
-    
-    .dark body { 
-        background-color: #080808; 
-        color: #e5e5e5; 
-    }
+            body {
+                background-color: #fcfcfc;
+                color: #1a1a1a;
+                transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s;
+                -webkit-font-smoothing: antialiased;
+            }
 
-    /* Luxury Scrollbar */
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
-    .dark ::-webkit-scrollbar-thumb { background: #333; }
+            .dark body {
+                background-color: #080808;
+                color: #e5e5e5;
+            }
 
-    /* Glass Effect */
-    .glass-panel {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    .dark .glass-panel {
-        background: rgba(10, 10, 10, 0.85);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
+            /* Luxury Scrollbar */
+            ::-webkit-scrollbar { width: 4px; height: 4px; }
+            ::-webkit-scrollbar-track { background: transparent; }
+            ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+            .dark ::-webkit-scrollbar-thumb { background: #333; }
 
-    /* Animations */
-    .fade-in-up { 
-        animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; 
-        opacity: 0; 
-        transform: translateY(20px); 
-    }
-    .delay-100 { animation-delay: 0.1s; }
-    .delay-200 { animation-delay: 0.2s; }
-    
-    @keyframes fadeInUp {
-        to { opacity: 1; transform: translateY(0); }
-    }
+            /* Glass Effect */
+            .glass-panel {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(16px) saturate(180%);
+                -webkit-backdrop-filter: blur(16px) saturate(180%);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            .dark .glass-panel {
+                background: rgba(10, 10, 10, 0.85);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
 
-    /* Hide scrollbar for nav */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            /* Animations */
+            .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(20px); }
+            .delay-100 { animation-delay: 0.1s; }
+            .delay-200 { animation-delay: 0.2s; }
 
-    ::selection { background: #D4AF37; color: white; }
-</style>
-</head> <body x-data="shopSystem" x-init="init()" x-cloak class="antialiased pb-20">
+            @keyframes fadeInUp {
+                to { opacity: 1; transform: translateY(0); }
+            }
 
-<div class="fixed top-24 left-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
-    <template x-for="note in notifications" :key="note.id">
-        <div x-show="note.show" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 -translate-y-4 scale-90"
-             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-             x-transition:leave="transition ease-in duration-300"
-             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-             x-transition:leave-end="opacity-0 -translate-y-4 scale-90"
-             class="glass-panel px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 pointer-events-auto border border-white/10">
-            <div class="w-1.5 h-1.5 rounded-full" :class="note.type === 'error' ? 'bg-red-500' : 'bg-gold-400'"></div>
-            <div>
-                <p class="font-serif text-xs font-semibold" x-text="note.title"></p>
-                <p class="text-[9px] uppercase tracking-wider opacity-60" x-text="note.message"></p>
-            </div>
-        </div>
-    </template>
-</div>
+            /* Hide scrollbar for nav */
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-<nav class="fixed top-0 w-full z-50 transition-all duration-500 glass-panel">
-    <div class="px-6 py-4 flex flex-col gap-4">
-        <div class="flex justify-between items-center">
-            <h1 @click="goTo('home')" class="font-display text-xl tracking-widest cursor-pointer hover:opacity-70 transition-opacity">SOVEREIGN</h1>
-            
-            <button @click="toggleTheme()" class="p-2 rounded-full bg-black/5 dark:bg-white/10">
-                <svg x-show="!$store.darkMode.isDark" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                </svg>
-                <svg x-show="$store.darkMode.isDark" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                </svg>
-            </button>
-        </div>
+            ::selection { background: #D4AF37; color: white; }
+        </style>
+    </head>
 
-        <div class="flex gap-6 overflow-x-auto no-scrollbar items-center text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400 pb-1">
-            <button @click="goTo('catalog'); activeCategory='All'" 
-                    class="whitespace-nowrap hover:text-black dark:hover:text-white transition-colors" 
-                    :class="view === 'catalog' ? 'text-gold-500 dark:text-gold-400' : ''">Archive</button>
-            <button @click="goTo('catalog'); activeCategory='Ancient'" 
-                    class="whitespace-nowrap hover:text-black dark:hover:text-white transition-colors">Curated</button>
-            
-            <div class="w-px h-3 bg-stone-300 dark:bg-stone-700 flex-shrink-0"></div>
-
-            <button @click="goTo('cart')" class="relative whitespace-nowrap group hover:text-black dark:hover:text-white">
-                Collection
-                <span x-show="cart.length > 0" 
-                      class="absolute -top-2 -right-2 w-3 h-3 bg-gold-400 text-white rounded-full flex items-center justify-center text-[6px]" 
-                      x-text="cart.length"></span>
-            </button>
-
-            <button @click="goTo('orders')" class="whitespace-nowrap hover:text-black dark:hover:text-white transition-colors">Orders</button>
-            
-            <div class="w-px h-3 bg-stone-300 dark:bg-stone-700 flex-shrink-0"></div>
-
-            <template x-if="!isUserLoggedIn">
-                <button @click="view='user-auth'" class="whitespace-nowrap hover:text-black dark:hover:text-white">Sign In</button>
-            </template>
-            <template x-if="isUserLoggedIn">
-                <button @click="logoutUser()" class="whitespace-nowrap text-red-400 hover:text-red-500">Exit</button>
-            </template>
-        </div>
-    </div>
-</nav>
-
-<template x-if="view === 'home'">
-    <main class="min-h-[100svh]">
-        <div class="h-[100svh] relative flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 z-0">
-                <img src="[https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80](https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80)" 
-                     class="w-full h-full object-cover brightness-[0.7] dark:brightness-[0.3] scale-105 animate-[pulse_10s_ease-in-out_infinite]">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
-            </div>
-            
-            <div class="relative z-10 text-center text-white px-6 space-y-6">
-                <div class="fade-in-up">
-                    <p class="uppercase tracking-[0.4em] text-[8px] mb-4 opacity-70">Est. 1924</p>
-                    <h2 class="font-display text-5xl leading-tight">Tangible<br><span class="font-serif italic text-gold-400">History.</span></h2>
+    <body x-data="shopSystem" x-init="init()" x-cloak class="antialiased pb-20">
+        <div class="fixed top-24 left-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
+            <template x-for="note in notifications" :key="note.id">
+                <div x-show="note.show"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 -translate-y-4 scale-90"
+                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave-end="opacity-0 -translate-y-4 scale-90"
+                     class="glass-panel px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 pointer-events-auto border border-white/10">
+                    <div class="w-1.5 h-1.5 rounded-full" :class="note.type === 'error' ? 'bg-red-500' : 'bg-gold-400'"></div>
+                    <div>
+                        <p class="font-serif text-xs font-semibold" x-text="note.title"></p>
+                        <p class="text-[9px] uppercase tracking-wider opacity-60" x-text="note.message"></p>
+                    </div>
                 </div>
-                
-                <div class="fade-in-up delay-200 pt-4">
-                    <button @click="goTo('catalog')" 
-                            class="px-8 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full transition-all active:scale-95">
-                        <span class="text-[9px] font-bold uppercase tracking-[0.2em]">Explore Archive</span>
+            </template>
+        </div>
+
+        <nav class="fixed top-0 w-full z-50 transition-all duration-500 glass-panel">
+            <div class="px-6 py-4 flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <h1 @click="goTo('home')" class="font-display text-xl tracking-widest cursor-pointer hover:opacity-70 transition-opacity">SOVEREIGN</h1>
+                    <button @click="toggleTheme()" class="p-2 rounded-full bg-black/5 dark:bg-white/10">
+                        <svg x-show="!$store.darkMode.isDark" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="$store.darkMode.isDark" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
                     </button>
                 </div>
-            </div>
-        </div>
-        
-        <section class="py-20 px-6">
-            <div class="space-y-12">
-                <div class="space-y-6">
-                    <h3 class="font-serif text-3xl leading-tight dark:text-white">We transfer <span class="italic text-gold-500">stewardship.</span></h3>
-                    <p class="text-stone-600 dark:text-stone-400 text-sm leading-loose font-light">
-                        Each artifact in the Sovereign archive has survived centuries. When you acquire a piece, you write the next chapter.
-                    </p>
-                </div>
-                
-                <div class="relative group">
-                    <div class="absolute inset-0 bg-gold-500 rounded-tr-[60px] rounded-bl-[60px] blur-xl opacity-20"></div>
-                    <img src="[https://images.unsplash.com/photo-1599619585752-c32942875b63?auto=format&fit=crop&w=600](https://images.unsplash.com/photo-1599619585752-c32942875b63?auto=format&fit=crop&w=600)" 
-                         class="relative z-10 rounded-tr-[60px] rounded-bl-[60px] shadow-xl grayscale w-full">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-8 border-t border-stone-200 dark:border-stone-800 pt-8">
-                    <div>
-                        <h4 class="font-display text-2xl mb-1 dark:text-white">100+</h4>
-                        <p class="text-[8px] uppercase tracking-widest text-stone-500">Years Service</p>
-                    </div>
-                    <div>
-                        <h4 class="font-display text-2xl mb-1 dark:text-white">Auth</h4>
-                        <p class="text-[8px] uppercase tracking-widest text-stone-500">Guaranteed</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-</template>
 
-<template x-if="view === 'catalog'">
-    <section class="pt-36 pb-20 px-6 min-h-screen" x-transition.opacity>
-        
-        <div class="flex flex-col gap-6 mb-10">
-            <div>
-                <h2 class="font-display text-3xl mb-2 dark:text-white">The Archive</h2>
-                <p class="text-stone-500 dark:text-stone-400 text-xs">Browse available acquisitions.</p>
-            </div>
-            
-            <div class="flex flex-col gap-4">
-                <div class="relative w-full">
-                    <input type="text" x-model="searchQuery" placeholder="Search provenance..." 
-                           class="w-full pl-9 pr-4 py-3 bg-stone-100 dark:bg-stone-900 rounded-xl outline-none text-xs dark:text-white placeholder:text-stone-400 border border-transparent focus:border-gold-500/50 transition-all">
-                    <svg class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                </div>
-                
-                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                    <template x-for="cat in categories">
-                        <button @click="activeCategory = cat"
-                                class="px-4 py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest whitespace-nowrap border"
-                                :class="activeCategory === cat ? 'bg-black border-black text-white dark:bg-white dark:border-white dark:text-black' : 'border-stone-200 dark:border-stone-800 text-stone-500'"
-                                x-text="cat"></button>
+                <div class="flex gap-6 overflow-x-auto no-scrollbar items-center text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400 pb-1">
+                    <button @click="goTo('catalog'); activeCategory='All'" class="whitespace-nowrap hover:text-black dark:hover:text-white transition-colors" :class="view === 'catalog' ? 'text-gold-500 dark:text-gold-400' : ''">Archive</button>
+                    <button @click="goTo('catalog'); activeCategory='Ancient'" class="whitespace-nowrap hover:text-black dark:hover:text-white transition-colors">Curated</button>
+
+                    <div class="w-px h-3 bg-stone-300 dark:bg-stone-700 flex-shrink-0"></div>
+
+                    <button @click="goTo('cart')" class="relative whitespace-nowrap group hover:text-black dark:hover:text-white">
+                        Collection
+                        <span x-show="cart.length > 0" class="absolute -top-2 -right-2 w-3 h-3 bg-gold-400 text-white rounded-full flex items-center justify-center text-[6px]" x-text="cart.length"></span>
+                    </button>
+
+                    <button @click="goTo('orders')" class="whitespace-nowrap hover:text-black dark:hover:text-white transition-colors">Orders</button>
+
+                    <div class="w-px h-3 bg-stone-300 dark:bg-stone-700 flex-shrink-0"></div>
+
+                    <template x-if="!isUserLoggedIn">
+                        <button @click="view='user-auth'" class="whitespace-nowrap hover:text-black dark:hover:text-white">Sign In</button>
+                    </template>
+                    <template x-if="isUserLoggedIn">
+                        <button @click="logoutUser()" class="whitespace-nowrap text-red-400 hover:text-red-500">Exit</button>
                     </template>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <div class="grid grid-cols-1 gap-10">
-            <template x-for="(product, index) in filteredProducts" :key="product.id">
-                <div class="group fade-in-up" 
-                    :style="`animation-delay: ${index * 50}ms`" 
-                    @click="openProduct(product)"
-                    :class="product.isSold ? 'opacity-70' : ''">
-                    
-                    <div class="aspect-[4/5] bg-stone-100 dark:bg-stone-900 overflow-hidden relative mb-4 rounded-sm">
-                        <img :src="product.images[0]" class="w-full h-full object-cover">
-                        
-                        <template x-if="product.isSold">
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/20">
-                                <div class="bg-red-600/90 text-white px-4 py-1 backdrop-blur-sm -rotate-6 border border-white/20 shadow-lg">
-                                    <span class="text-[9px] font-bold uppercase tracking-[0.2em]">Sold</span>
-                                </div>
+        <template x-if="view === 'home'">
+            <main class="min-h-[100svh]">
+                <div class="h-[100svh] relative flex items-center justify-center overflow-hidden">
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-[0.7] dark:brightness-[0.3] scale-105 animate-[pulse_10s_ease-in-out_infinite]" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+                    </div>
+
+                    <div class="relative z-10 text-center text-white px-6 space-y-6">
+                        <div class="fade-in-up">
+                            <p class="uppercase tracking-[0.4em] text-[8px] mb-4 opacity-70">Est. 1924</p>
+                            <h2 class="font-display text-5xl leading-tight">
+                                Tangible
+                                <br />
+                                <span class="font-serif italic text-gold-400">History.</span>
+                            </h2>
+                        </div>
+
+                        <div class="fade-in-up delay-200 pt-4">
+                            <button @click="goTo('catalog')" class="px-8 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full transition-all active:scale-95">
+                                <span class="text-[9px] font-bold uppercase tracking-[0.2em]">Explore Archive</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="py-20 px-6">
+                    <div class="space-y-12">
+                        <div class="space-y-6">
+                            <h3 class="font-serif text-3xl leading-tight dark:text-white">We transfer <span class="italic text-gold-500">stewardship.</span></h3>
+                            <p class="text-stone-600 dark:text-stone-400 text-sm leading-loose font-light">
+                                Each artifact in the Sovereign archive has survived centuries. When you acquire a piece, you write the next chapter.
+                            </p>
+                        </div>
+
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gold-500 rounded-tr-[60px] rounded-bl-[60px] blur-xl opacity-20"></div>
+                            <img src="https://images.unsplash.com/photo-1599619585752-c32942875b63?auto=format&fit=crop&w=600" class="relative z-10 rounded-tr-[60px] rounded-bl-[60px] shadow-xl grayscale w-full" />
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-8 border-t border-stone-200 dark:border-stone-800 pt-8">
+                            <div>
+                                <h4 class="font-display text-2xl mb-1 dark:text-white">100+</h4>
+                                <p class="text-[8px] uppercase tracking-widest text-stone-500">Years Service</p>
                             </div>
-                        </template>
-                    </div>
-                    
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-serif text-lg dark:text-white" 
-                                :class="product.isSold ? 'line-through decoration-stone-500' : ''"
-                                x-text="product.name"></h3>
-                            <p class="text-[9px] uppercase tracking-widest text-stone-400 mt-1" x-text="product.era"></p>
+                            <div>
+                                <h4 class="font-display text-2xl mb-1 dark:text-white">Auth</h4>
+                                <p class="text-[8px] uppercase tracking-widest text-stone-500">Guaranteed</p>
+                            </div>
                         </div>
-                        <span class="font-sans text-xs font-medium dark:text-stone-300 bg-stone-100 dark:bg-stone-900 px-2 py-1 rounded" 
-                            :class="product.isSold ? 'opacity-50' : ''"
-                            x-text="formatCurrency(product.price)"></span>
                     </div>
-                </div>
-            </template>
-            
-            <div x-show="filteredProducts.length === 0" class="py-12 text-center">
-                <p class="font-serif text-lg text-stone-400 italic">No artifacts found.</p>
-            </div>
-        </div>
-    </section>
-</template>
+                </section>
+            </main>
+        </template>
 
-<template x-if="view === 'product-detail'">
-   <section class="min-h-screen bg-white dark:bg-[#0a0a0a]" x-transition.opacity 
-     x-data="{ activeImg: 0, lightbox: false }">
-
-        <div x-show="lightbox" 
-            class="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center p-4">
-            <button @click="lightbox = false" class="absolute top-6 right-6 text-white p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <img :src="selectedProduct.images[activeImg]" class="max-w-full max-h-[80vh] object-contain">
-        </div>
-
-        <div class="flex flex-col">
-            <div class="pt-24 bg-stone-50 dark:bg-black">
-                <div class="aspect-[4/5] w-full relative overflow-hidden" @click="lightbox = true">
-                    <img :src="selectedProduct.images[activeImg]" 
-                        class="w-full h-full object-cover">
-                    <div class="absolute bottom-4 right-4 bg-black/50 text-white text-[8px] uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md">
-                        Tap to view
+        <template x-if="view === 'catalog'">
+            <section class="pt-36 pb-20 px-6 min-h-screen" x-transition.opacity>
+                <div class="flex flex-col gap-6 mb-10">
+                    <div>
+                        <h2 class="font-display text-3xl mb-2 dark:text-white">The Archive</h2>
+                        <p class="text-stone-500 dark:text-stone-400 text-xs">Browse available acquisitions.</p>
                     </div>
-                </div>
 
-                <div class="p-4 flex gap-3 overflow-x-auto no-scrollbar bg-white dark:bg-stone-950 border-b border-stone-100 dark:border-stone-900">
-                    <template x-for="(img, index) in selectedProduct.images" :key="index">
-                        <button @click="activeImg = index" 
-                                class="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-sm border"
-                                :class="activeImg === index ? 'border-gold-500' : 'border-transparent opacity-60'">
-                            <img :src="img" class="w-full h-full object-cover">
-                        </button>
-                    </template>
-                </div>
-            </div>
-            
-            <div class="px-6 py-10 space-y-8">
-                <button @click="view = 'catalog'" class="text-[9px] uppercase tracking-widest font-bold text-stone-400 flex items-center gap-2">
-                    <span>←</span> Archive
-                </button>
-                
-                <div class="space-y-6">
-                    <div class="flex items-center gap-2 text-gold-500">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
-                        <span class="text-[9px] uppercase tracking-[0.2em] font-bold" x-text="selectedProduct.category"></span>
-                    </div>
-                    
-                    <h2 class="font-display text-4xl dark:text-white leading-none" x-text="selectedProduct.name"></h2>
-                    <p class="font-serif text-2xl italic text-stone-500" x-text="formatCurrency(selectedProduct.price)"></p>
-                    
-                    <template x-if="selectedProduct.story">
-                        <div class="p-5 bg-stone-50 dark:bg-stone-900/50 border-l-2 border-gold-500/50">
-                            <h4 class="text-[8px] uppercase tracking-[0.2em] font-bold text-gold-500 mb-2">Provenance</h4>
-                            <p class="font-serif italic text-sm text-stone-600 dark:text-stone-300 leading-relaxed" x-text="selectedProduct.story"></p>
+                    <div class="flex flex-col gap-4">
+                        <div class="relative w-full">
+                            <input type="text" x-model="searchQuery" placeholder="Search provenance..."
+                                   class="w-full pl-9 pr-4 py-3 bg-stone-100 dark:bg-stone-900 rounded-xl outline-none text-xs dark:text-white placeholder:text-stone-400 border border-transparent focus:border-gold-500/50 transition-all" />
+                            <svg class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
                         </div>
-                    </template>
 
-                    <div class="space-y-6 pt-4">
-                        <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed font-light" x-text="selectedProduct.description"></p>
-                        
-                        <div class="grid grid-cols-1 gap-4">
-                            <template x-for="detail in selectedProduct.details">
-                                <div class="flex justify-between border-b border-stone-100 dark:border-stone-800 pb-2">
-                                    <p class="text-[9px] uppercase tracking-widest text-stone-400" x-text="detail.label"></p>
-                                    <p class="font-serif text-sm dark:text-stone-200" x-text="detail.value"></p>
+                        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                            <template x-for="cat in categories">
+                                <button @click="activeCategory = cat"
+                                        class="px-4 py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest whitespace-nowrap border"
+                                        :class="activeCategory === cat ? 'bg-black border-black text-white dark:bg-white dark:border-white dark:text-black' : 'border-stone-200 dark:border-stone-800 text-stone-500'"
+                                        x-text="cat">
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-10">
+                    <template x-for="(product, index) in filteredProducts" :key="product.id">
+                        <div class="group fade-in-up" :style="`animation-delay: ${index * 50}ms`" @click="openProduct(product)" :class="product.isSold ? 'opacity-70' : ''">
+                            <div class="aspect-[4/5] bg-stone-100 dark:bg-stone-900 overflow-hidden relative mb-4 rounded-sm">
+                                <img :src="product.images[0]" class="w-full h-full object-cover" />
+                                <template x-if="product.isSold">
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                                        <div class="bg-red-600/90 text-white px-4 py-1 backdrop-blur-sm -rotate-6 border border-white/20 shadow-lg">
+                                            <span class="text-[9px] font-bold uppercase tracking-[0.2em]">Sold</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-serif text-lg dark:text-white" :class="product.isSold ? 'line-through decoration-stone-500' : ''" x-text="product.name"></h3>
+                                    <p class="text-[9px] uppercase tracking-widest text-stone-400 mt-1" x-text="product.era"></p>
                                 </div>
+                                <span class="font-sans text-xs font-medium dark:text-stone-300 bg-stone-100 dark:bg-stone-900 px-2 py-1 rounded" :class="product.isSold ? 'opacity-50' : ''" x-text="formatCurrency(product.price)"></span>
+                            </div>
+                        </div>
+                    </template>
+
+                    <div x-show="filteredProducts.length === 0" class="py-12 text-center">
+                        <p class="font-serif text-lg text-stone-400 italic">No artifacts found.</p>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+        <template x-if="view === 'product-detail'">
+            <section class="min-h-screen bg-white dark:bg-[#0a0a0a]" x-transition.opacity x-data="{ activeImg: 0, lightbox: false }">
+                <div x-show="lightbox" x-transition.opacity @keydown.escape.window="lightbox = false" class="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4 md:p-12">
+                    <button @click="lightbox = false" class="absolute top-8 right-8 text-white hover:text-gold-400 transition-colors">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                    <img :src="selectedProduct.images[activeImg]" class="max-w-full max-h-full object-contain shadow-2xl" />
+                </div>
+
+                <div class="grid lg:grid-cols-2 h-screen">
+                    <div class="h-full overflow-hidden bg-stone-50 dark:bg-black flex flex-col">
+                        <div class="flex-1 relative overflow-hidden cursor-zoom-in group" @click="lightbox = true">
+                            <img :src="selectedProduct.images[activeImg]" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" :key="activeImg" />
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                <span class="opacity-0 group-hover:opacity-100 text-white text-[10px] uppercase tracking-widest font-bold bg-black/40 px-4 py-2 backdrop-blur-md rounded-full transition-opacity">Click to expand</span>
+                            </div>
+                        </div>
+
+                        <div class="p-6 flex gap-4 overflow-x-auto no-scrollbar border-t border-stone-100 dark:border-stone-900 bg-white dark:bg-stone-950">
+                            <template x-for="(img, index) in selectedProduct.images" :key="index">
+                                <button @click="activeImg = index" class="relative w-20 h-20 flex-shrink-0 overflow-hidden rounded-sm transition-all duration-300" :class="activeImg === index ? 'ring-2 ring-gold-500 opacity-100' : 'opacity-40 hover:opacity-100'">
+                                    <img :src="img" class="w-full h-full object-cover" />
+                                </button>
                             </template>
                         </div>
                     </div>
 
-                    <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 dark:bg-black/90 backdrop-blur-md border-t border-stone-100 dark:border-stone-800 z-40">
-                         <button @click="addToCart(selectedProduct)" 
-                                :disabled="selectedProduct.isSold || inCart(selectedProduct.id)"
-                                class="w-full py-4 font-bold uppercase text-[10px] tracking-[0.2em] shadow-lg"
-                                :class="selectedProduct.isSold 
-                                        ? 'bg-stone-200 dark:bg-stone-800 text-stone-500 cursor-not-allowed' 
-                                        : 'bg-black dark:bg-white text-white dark:text-black'">
-                            <span x-text="getButtonText(selectedProduct)"></span>
-                        </button>
+                    <div class="lg:hidden h-[50vh] overflow-hidden relative">
+                        <img :src="selectedProduct.images[activeImg]" class="w-full h-full object-cover" @click="lightbox = true" />
                     </div>
-                    <div class="h-16"></div> </div>
-            </div>
-        </div>
-    </section>
-</template>
 
-<template x-if="view === 'cart'">
-    <section class="pt-32 pb-24 px-6 min-h-screen">
-        <h2 class="font-display text-3xl mb-8 dark:text-white">Acquisition List</h2>
-        
-        <div x-show="cart.length === 0" class="text-center py-16 border border-dashed border-stone-300 dark:border-stone-700 rounded-lg">
-            <p class="font-serif text-lg text-stone-400 mb-4">Empty collection.</p>
-            <button @click="goTo('catalog')" class="text-[9px] font-bold uppercase tracking-widest border-b border-black dark:border-white pb-1">Begin Curating</button>
-        </div>
+                    <div class="h-full overflow-y-auto px-8 md:px-20 py-24 lg:py-32 flex flex-col justify-center relative">
+                        <button @click="view = 'catalog'" class="absolute top-24 left-8 md:left-20 text-[10px] uppercase tracking-widest font-bold opacity-40 hover:opacity-100 transition-opacity">← Archive</button>
 
-        <div x-show="cart.length > 0" class="space-y-8">
-            <div class="space-y-4">
-                <template x-for="(item, index) in cart" :key="index">
-                    <div class="flex gap-4 p-3 bg-white dark:bg-stone-900 shadow-sm border border-stone-100 dark:border-stone-800 rounded-xl">
-                        <img :src="item.images[0]" class="w-20 h-20 object-cover rounded-lg bg-stone-100">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-serif text-lg truncate dark:text-white" x-text="item.name"></h4>
-                            <p class="text-[8px] uppercase tracking-widest text-stone-500 mb-1" x-text="item.category"></p>
-                            <p class="font-medium text-sm dark:text-stone-300" x-text="formatCurrency(item.price)"></p>
+                        <div class="space-y-8 max-w-lg">
+                            <div class="flex items-center gap-3 text-gold-500">
+                                <span class="w-2 h-2 rounded-full bg-gold-500"></span>
+                                <span class="text-[10px] uppercase tracking-[0.2em] font-bold" x-text="selectedProduct.category"></span>
+                            </div>
+
+                            <h2 class="font-display text-5xl md:text-6xl dark:text-white leading-none" x-text="selectedProduct.name"></h2>
+                            <p class="font-serif text-3xl italic text-stone-500" x-text="formatCurrency(selectedProduct.price)"></p>
+
+                            <template x-if="selectedProduct.story">
+                                <div class="mt-8 p-6 bg-stone-50 dark:bg-stone-900/50 border-l-2 border-gold-500/50 relative overflow-hidden">
+                                    <div class="absolute -right-4 -top-4 opacity-5">
+                                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M14 17h-4v-1h4v1zm7-11v11c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h4l2-2h4l2 2h4c1.1 0 2 .9 2 2z"/></svg>
+                                    </div>
+
+                                    <h4 class="text-[9px] uppercase tracking-[0.2em] font-bold text-gold-500 mb-3">Provenance & History</h4>
+                                    <p class="font-serif italic text-stone-600 dark:text-stone-300 leading-relaxed" x-text="selectedProduct.story"></p>
+                                </div>
+                            </template>
+
+                            <div class="py-8 border-y border-stone-100 dark:border-stone-800 space-y-6">
+                                <p class="text-stone-600 dark:text-stone-400 leading-relaxed font-light" x-text="selectedProduct.description"></p>
+
+                                <div class="grid grid-cols-2 gap-6">
+                                    <template x-for="detail in selectedProduct.details">
+                                        <div>
+                                            <p class="text-[9px] uppercase tracking-widest text-stone-400 mb-1" x-text="detail.label"></p>
+                                            <p class="font-serif text-lg dark:text-stone-200" x-text="detail.value"></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <button @click="addToCart(selectedProduct)"
+                                        :disabled="selectedProduct.isSold || inCart(selectedProduct.id)"
+                                        class="flex-1 py-5 font-bold uppercase text-[10px] tracking-[0.2em] transition-all"
+                                        :class="selectedProduct.isSold
+                                                ? 'bg-stone-200 dark:bg-stone-800 text-stone-500 cursor-not-allowed border border-stone-300 dark:border-stone-700'
+                                                : 'bg-black dark:bg-white text-white dark:text-black hover:bg-gold-900 dark:hover:bg-stone-200'">
+                                    <span x-text="getButtonText(selectedProduct)"></span>
+                                </button>
+
+                                <button :disabled="selectedProduct.isSold"
+                                        :class="selectedProduct.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:border-black dark:hover:border-white'"
+                                        class="w-16 border border-stone-200 dark:border-stone-800 flex items-center justify-center transition-colors">
+                                    <svg class="w-5 h-5 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <p class="text-[9px] text-stone-400 text-center">Includes Certificate of Authenticity & White Glove Delivery.</p>
                         </div>
-                        <button @click="removeFromCart(index)" class="self-start text-stone-400 p-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
                     </div>
-                </template>
-            </div>
-
-            <div class="bg-stone-50 dark:bg-stone-900 p-6 rounded-xl border border-stone-100 dark:border-stone-800 space-y-6">
-                <div class="flex justify-between items-center pb-4 border-b border-stone-200 dark:border-stone-700">
-                    <span class="font-serif dark:text-white">Total Estimate</span>
-                    <span class="font-display text-xl dark:text-white" x-text="formatCurrency(cartTotal())"></span>
                 </div>
-                <button @click="payWithRazorpay()" 
-                        class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-bold uppercase text-[10px] tracking-[0.2em]">
-                    Complete Acquisition
+            </section>
+        </template>
+
+        <template x-if="view === 'cart'">
+            <section class="pt-32 pb-24 px-6 min-h-screen">
+                <h2 class="font-display text-3xl mb-8 dark:text-white">Acquisition List</h2>
+
+                <div x-show="cart.length === 0" class="text-center py-16 border border-dashed border-stone-300 dark:border-stone-700 rounded-lg">
+                    <p class="font-serif text-lg text-stone-400 mb-4">Empty collection.</p>
+                    <button @click="goTo('catalog')" class="text-[9px] font-bold uppercase tracking-widest border-b border-black dark:border-white pb-1">Begin Curating</button>
+                </div>
+
+                <div x-show="cart.length > 0" class="space-y-8">
+                    <div class="space-y-4">
+                        <template x-for="(item, index) in cart" :key="index">
+                            <div class="flex gap-4 p-3 bg-white dark:bg-stone-900 shadow-sm border border-stone-100 dark:border-stone-800 rounded-xl">
+                                <img :src="item.images[0]" class="w-20 h-20 object-cover rounded-lg bg-stone-100" />
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-serif text-lg truncate dark:text-white" x-text="item.name"></h4>
+                                    <p class="text-[8px] uppercase tracking-widest text-stone-500 mb-1" x-text="item.category"></p>
+                                    <p class="font-medium text-sm dark:text-stone-300" x-text="formatCurrency(item.price)"></p>
+                                </div>
+                                <button @click="removeFromCart(index)" class="self-start text-stone-400 p-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="bg-stone-50 dark:bg-stone-900 p-6 rounded-xl border border-stone-100 dark:border-stone-800 space-y-6">
+                        <div class="flex justify-between items-center pb-4 border-b border-stone-200 dark:border-stone-700">
+                            <span class="font-serif dark:text-white">Total Estimate</span>
+                            <span class="font-display text-xl dark:text-white" x-text="formatCurrency(cartTotal())"></span>
+                        </div>
+
+                        <button @click="payWithRazorpay()" class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-bold uppercase text-[10px] tracking-[0.2em]">
+                            Complete Acquisition
+                        </button>
+
+                        <p class="text-[8px] text-center text-stone-400 leading-tight">Consultation request. No immediate charge.</p>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+        <template x-if="view === 'admin'">
+            <div class="pt-40 px-6 text-center">
+                <div class="bg-stone-50 dark:bg-stone-900 p-8 rounded-2xl border border-stone-100 dark:border-stone-800">
+                    <svg class="w-12 h-12 mx-auto text-stone-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <h3 class="font-display text-lg mb-2 dark:text-white">Desktop Only</h3>
+                    <p class="text-sm text-stone-500 font-serif">The Curator Dashboard requires a larger display for inventory management.</p>
+                    <button @click="view='catalog'" class="mt-6 text-[9px] uppercase font-bold tracking-widest text-gold-500">Return to Archive</button>
+                </div>
+            </div>
+        </template>
+
+        <template x-if="view === 'orders'">
+            <section class="pt-32 pb-20 px-6 min-h-screen">
+                <h2 class="font-display text-3xl mb-8 dark:text-white">History</h2>
+
+                <button @click="createTestOrder()" class="mb-6 w-full py-3 bg-gold-500/10 text-gold-600 dark:text-gold-400 border border-gold-500/20 text-[9px] font-bold uppercase tracking-widest">
+                    Create Test Order (Dev)
                 </button>
-                <p class="text-[8px] text-center text-stone-400 leading-tight">
-                    Consultation request. No immediate charge.
-                </p>
-            </div>
-        </div>
-    </section>
-</template>
 
-<template x-if="view === 'admin'">
-    <div class="pt-40 px-6 text-center">
-        <div class="bg-stone-50 dark:bg-stone-900 p-8 rounded-2xl border border-stone-100 dark:border-stone-800">
-            <svg class="w-12 h-12 mx-auto text-stone-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-            <h3 class="font-display text-lg mb-2 dark:text-white">Desktop Only</h3>
-            <p class="text-sm text-stone-500 font-serif">
-                The Curator Dashboard requires a larger display for inventory management.
-            </p>
-            <button @click="view='catalog'" class="mt-6 text-[9px] uppercase font-bold tracking-widest text-gold-500">Return to Archive</button>
-        </div>
-    </div>
-</template>
-
-<template x-if="view === 'orders'">
-    <section class="pt-32 pb-20 px-6 min-h-screen">
-        <h2 class="font-display text-3xl mb-8 dark:text-white">History</h2>
-
-        <button @click="createTestOrder()"
-            class="mb-6 w-full py-3 bg-gold-500/10 text-gold-600 dark:text-gold-400 border border-gold-500/20 text-[9px] font-bold uppercase tracking-widest">
-            Create Test Order (Dev)
-        </button>
-
-        <div x-show="orders.length === 0" class="text-center py-16 border border-dashed border-stone-300 dark:border-stone-700 rounded-lg">
-            <p class="font-serif text-stone-400">No acquisitions yet.</p>
-        </div>
-
-        <div class="space-y-4" x-show="orders.length > 0">
-            <template x-for="order in orders" :key="order.id">
-                <div class="p-5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl space-y-3">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-[8px] uppercase tracking-widest text-stone-500">ID</p>
-                            <p class="font-serif text-sm dark:text-white break-all" x-text="order.id"></p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[8px] uppercase tracking-widest text-stone-500">Total</p>
-                            <p class="font-medium text-sm dark:text-white" x-text="formatCurrency(order.total)"></p>
-                        </div>
-                    </div>
-
-                    <div class="pt-3 border-t border-stone-100 dark:border-stone-800">
-                         <button @click="downloadInvoice(order)"
-                            class="w-full py-2 bg-stone-100 dark:bg-stone-800 text-black dark:text-white text-[9px] font-bold uppercase tracking-widest hover:opacity-80">
-                            Download Invoice
-                        </button>
-                    </div>
+                <div x-show="orders.length === 0" class="text-center py-16 border border-dashed border-stone-300 dark:border-stone-700 rounded-lg">
+                    <p class="font-serif text-stone-400">No acquisitions yet.</p>
                 </div>
-            </template>
-        </div>
-    </section>
-</template>
 
-<template x-if="view === 'user-auth'">
-    <section class="pt-36 px-6 space-y-8">
-        <div class="bg-white dark:bg-stone-900 p-6 rounded-xl shadow-lg border border-stone-100 dark:border-stone-800">
-            <h2 class="font-display text-xl mb-6 text-center dark:text-white">User Login</h2>
-            <input x-model="userLoginForm.email" type="email" placeholder="Email" class="w-full p-3 mb-3 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none focus:border-gold-500">
-            <input type="password" x-model="userLoginForm.password" placeholder="Password" class="w-full p-3 mb-6 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none focus:border-gold-500">
-            <button @click="loginUser()" class="w-full py-3 bg-black dark:bg-white text-white dark:text-black uppercase text-[10px] tracking-widest font-bold">Login</button>
-        </div>
+                <div class="space-y-4" x-show="orders.length > 0">
+                    <template x-for="order in orders" :key="order.id">
+                        <div class="p-5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl space-y-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-[8px] uppercase tracking-widest text-stone-500">ID</p>
+                                    <p class="font-serif text-sm dark:text-white break-all" x-text="order.id"></p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[8px] uppercase tracking-widest text-stone-500">Total</p>
+                                    <p class="font-medium text-sm dark:text-white" x-text="formatCurrency(order.total)"></p>
+                                </div>
+                            </div>
 
-        <div class="bg-transparent p-6 rounded-xl border border-stone-200 dark:border-stone-800">
-            <h2 class="font-display text-lg mb-4 text-center dark:text-white">Create Account</h2>
-            <input x-model="userSignupForm.name" placeholder="Name" class="w-full p-3 mb-3 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none">
-            <input x-model="userSignupForm.email" type="email" placeholder="Email" class="w-full p-3 mb-3 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none">
-            <input type="password" x-model="userSignupForm.password" placeholder="Password" class="w-full p-3 mb-4 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none">
-            <button @click="signupUser()" class="w-full py-3 bg-gold-500 text-white uppercase text-[10px] tracking-widest font-bold">Create Account</button>
-        </div>
-    </section>
-</template>
+                            <div class="pt-3 border-t border-stone-100 dark:border-stone-800">
+                                <button @click="downloadInvoice(order)" class="w-full py-2 bg-stone-100 dark:bg-stone-800 text-black dark:text-white text-[9px] font-bold uppercase tracking-widest hover:opacity-80">
+                                    Download Invoice
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+        </template>
 
-<template x-if="view === 'verify-otp'">
-    <section class="pt-40 px-6">
-        <div class="bg-white dark:bg-stone-900 p-8 rounded-xl shadow-lg border border-stone-100 dark:border-stone-800">
-            <h2 class="font-display text-xl mb-4 text-center dark:text-white">Verify Email</h2>
-            <p class="text-[10px] text-center mb-6 opacity-60 dark:text-stone-300">Code sent to <span x-text="otpEmail" class="font-bold"></span></p>
-            <input x-model="otpCode" placeholder="Enter 6-digit code" class="w-full p-3 mb-6 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-center text-lg tracking-widest dark:text-white outline-none focus:border-gold-500">
-            <button @click="verifyOtp()" class="w-full py-3 bg-black dark:bg-white text-white dark:text-black uppercase text-[10px] tracking-widest font-bold">Verify & Enter</button>
-        </div>
-    </section>
-</template>
+        <template x-if="view === 'user-auth'">
+            <section class="pt-36 px-6 space-y-8">
+                <div class="bg-white dark:bg-stone-900 p-6 rounded-xl shadow-lg border border-stone-100 dark:border-stone-800">
+                    <h2 class="font-display text-xl mb-6 text-center dark:text-white">User Login</h2>
+                    <input x-model="userLoginForm.email" type="email" placeholder="Email" class="w-full p-3 mb-3 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none focus:border-gold-500">
+                    <input type="password" x-model="userLoginForm.password" placeholder="Password" class="w-full p-3 mb-6 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none focus:border-gold-500">
+                    <button @click="loginUser()" class="w-full py-3 bg-black dark:bg-white text-white dark:text-black uppercase text-[10px] tracking-widest font-bold">Login</button>
+                </div>
 
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.store('darkMode', {
-            isDark: localStorage.getItem('sov_dark') === 'true',
-            toggle() {
-                this.isDark = !this.isDark;
-                localStorage.setItem('sov_dark', this.isDark);
-                document.documentElement.classList.toggle('dark', this.isDark);
-            }
-        });
+                <div class="bg-transparent p-6 rounded-xl border border-stone-200 dark:border-stone-800">
+                    <h2 class="font-display text-lg mb-4 text-center dark:text-white">Create Account</h2>
+                    <input x-model="userSignupForm.name" placeholder="Name" class="w-full p-3 mb-3 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none">
+                    <input x-model="userSignupForm.email" type="email" placeholder="Email" class="w-full p-3 mb-3 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none">
+                    <input type="password" x-model="userSignupForm.password" placeholder="Password" class="w-full p-3 mb-4 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-xs dark:text-white outline-none">
+                    <button @click="signupUser()" class="w-full py-3 bg-gold-500 text-white uppercase text-[10px] tracking-widest font-bold">Create Account</button>
+                </div>
+            </section>
+        </template>
 
-        Alpine.data('shopSystem', () => ({
-            view: 'home',
-            scrolled: false,
-            cart: [],
-            products: [],
-            notifications: [],
-            orders: [],
-            searchQuery: '',
-            activeCategory: 'All',
-            categories: ['All', 'Horology', 'Sculpture', 'Furniture', 'Fine Art', 'Ancient'],
-            selectedProduct: {},
-            isAdminLoggedIn: false,
-            loginForm: { password: '' },
-            authError: '',
-            selectedEditId: null,
-            newItem: {
-                name: '',
-                price: '',
-                category: 'Furniture',
-                era: '',
-                description: '',
-                story: '',
-                images: [],
-                details: [{ label: '', value: '' }]
-            },
-            changeCreds: {
-                currentPassword: '',
-                newUsername: '',
-                newPassword: '',
-                confirmPassword: ''
-            },
-            user: null,
-            isUserLoggedIn: false,
-            userLoginForm: { email: '', password: '' },
-            userSignupForm: { name: '', email: '', password: '' },
-            isAwaitingOtp: false,
-            otpEmail: '',
-            otpCode: '',
-            API_URL: '[https://sovereign-backend-gj6y.onrender.com](https://sovereign-backend-gj6y.onrender.com)',
+        <template x-if="view === 'verify-otp'">
+            <section class="pt-40 px-6">
+                <div class="bg-white dark:bg-stone-900 p-8 rounded-xl shadow-lg border border-stone-100 dark:border-stone-800">
+                    <h2 class="font-display text-xl mb-4 text-center dark:text-white">Verify Email</h2>
+                    <p class="text-[10px] text-center mb-6 opacity-60 dark:text-stone-300">Code sent to <span x-text="otpEmail" class="font-bold"></span></p>
+                    <input x-model="otpCode" placeholder="Enter 6-digit code" class="w-full p-3 mb-6 border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 rounded text-center text-lg tracking-widest dark:text-white outline-none focus:border-gold-500">
+                    <button @click="verifyOtp()" class="w-full py-3 bg-black dark:bg-white text-white dark:text-black uppercase text-[10px] tracking-widest font-bold">Verify & Enter</button>
+                </div>
+            </section>
+        </template>
 
-            adminCards: [],
-            dashboardStats: {},
-            adminRecentOrders: [],
-            chartInstance: null,
-
-            init() {
-                this.isAdminLoggedIn = !!localStorage.getItem('adminToken');
-                const storedUser = localStorage.getItem('user');
-                if (storedUser) {
-                    this.user = JSON.parse(storedUser);
-                    this.isUserLoggedIn = true;
-                }
-                const storedProducts = localStorage.getItem('products');
-                this.products = storedProducts ? JSON.parse(storedProducts) : [];
-                if (!this.products.length) this.seedData();
-                
-                this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
-                this.orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                
-                window.addEventListener('scroll', () => {
-                    this.scrolled = window.scrollY > 50;
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('darkMode', {
+                    isDark: localStorage.getItem('sov_dark') === 'true',
+                    toggle() {
+                        this.isDark = !this.isDark;
+                        localStorage.setItem('sov_dark', this.isDark);
+                        document.documentElement.classList.toggle('dark', this.isDark);
+                    }
                 });
-            },
 
-            get filteredProducts() {
-                return this.products.filter(p => {
-                    const s = this.searchQuery.toLowerCase();
-                    return (p.name.toLowerCase().includes(s) && (this.activeCategory === 'All' || p.category === this.activeCategory));
-                });
-            },
+                Alpine.data('shopSystem', () => ({
+                    view: 'home',
+                    scrolled: false,
+                    cart: [],
+                    products: [],
+                    notifications: [],
+                    orders: [],
+                    searchQuery: '',
+                    activeCategory: 'All',
+                    categories: ['All', 'Horology', 'Sculpture', 'Furniture', 'Fine Art', 'Ancient'],
+                    selectedProduct: {},
+                    isAdminLoggedIn: false,
+                    loginForm: { password: '' },
+                    authError: '',
+                    selectedEditId: null,
+                    newItem: { name: '', price: '', category: 'Furniture', era: '', description: '', story: '', images: [], details: [{ label: '', value: '' }] },
+                    changeCreds: { currentPassword: '', newUsername: '', newPassword: '', confirmPassword: '' },
+                    user: null,
+                    isUserLoggedIn: false,
+                    userLoginForm: { email: '', password: '' },
+                    userSignupForm: { name: '', email: '', password: '' },
+                    isAwaitingOtp: false,
+                    otpEmail: '',
+                    otpCode: '',
+                    API_URL: 'https://sovereign-backend-gj6y.onrender.com',
 
-            goTo(v) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                this.view = v;
-            },
+                    adminCards: [],
+                    dashboardStats: {},
+                    adminRecentOrders: [],
+                    chartInstance: null,
 
-            toggleTheme() {
-                this.$store.darkMode.toggle();
-            },
+                    init() {
+                        this.isAdminLoggedIn = !!localStorage.getItem('adminToken');
+                        const storedUser = localStorage.getItem('user');
+                        if (storedUser) {
+                            this.user = JSON.parse(storedUser);
+                            this.isUserLoggedIn = true;
+                        }
+                        const storedProducts = localStorage.getItem('products');
+                        this.products = storedProducts ? JSON.parse(storedProducts) : [];
+                        if (!this.products.length) this.seedData();
+                        this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                        this.orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                        window.addEventListener('scroll', () => { this.scrolled = window.scrollY > 50; });
+                    },
 
-            formatCurrency(val) {
-                return new Intl.NumberFormat('en-IN', {
-                    style: 'currency',
-                    currency: 'INR',
-                    maximumFractionDigits: 0
-                }).format(val);
-            },
+                    get filteredProducts() {
+                        return this.products.filter(p => {
+                            const s = this.searchQuery.toLowerCase();
+                            return (p.name.toLowerCase().includes(s) && (this.activeCategory === 'All' || p.category === this.activeCategory));
+                        });
+                    },
 
-            openProduct(p) {
-                this.selectedProduct = p;
-                this.view = 'product-detail';
-                window.scrollTo(0, 0);
-            },
+                    goTo(v) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        this.view = v;
+                    },
 
-            inCart(id) {
-                return this.cart.some(i => i.id === id);
-            },
+                    toggleTheme() { this.$store.darkMode.toggle(); },
 
-            getButtonText(p) {
-                if (p.isSold) return 'In Private Collection';
-                if (this.inCart(p.id)) return 'In Acquisition List';
-                return 'Acquire This Piece';
-            },
+                    formatCurrency(val) {
+                        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+                    },
 
-            addToCart(p) {
-                if (this.inCart(p.id)) return;
-                this.cart.push(p);
-                this.saveCart();
-                this.notify('Added', 'Added to collection');
-            },
+                    openProduct(p) {
+                        this.selectedProduct = p;
+                        this.view = 'product-detail';
+                        window.scrollTo(0, 0);
+                    },
 
-            removeFromCart(index) {
-                this.cart.splice(index, 1);
-                this.saveCart();
-            },
+                    inCart(id) { return this.cart.some(i => i.id === id); },
 
-            cartTotal() {
-                return this.cart.reduce((s, i) => s + i.price, 0);
-            },
+                    getButtonText(p) {
+                        if (p.isSold) return 'In Private Collection';
+                        if (this.inCart(p.id)) return 'In Acquisition List';
+                        return 'Acquire This Piece';
+                    },
 
-            saveCart() {
-                localStorage.setItem('cart', JSON.stringify(this.cart));
-            },
-            
-            saveOrders() {
-                localStorage.setItem('orders', JSON.stringify(this.orders));
-            },
-            
-            saveProducts() {
-                localStorage.setItem('products', JSON.stringify(this.products));
-            },
+                    addToCart(p) {
+                        if (this.inCart(p.id)) return;
+                        this.cart.push(p);
+                        this.saveCart();
+                        this.notify('Added', 'Added to collection');
+                    },
 
-            payWithRazorpay() {
-                const totalAmount = this.cartTotal();
-                if (totalAmount <= 0) {
-                    this.notify('Error', 'Collection is empty', 'error');
-                    return;
-                }
+                    removeFromCart(index) {
+                        this.cart.splice(index, 1);
+                        this.saveCart();
+                    },
 
-                const options = {
-                    key: "rzp_test_placeholder",
-                    amount: totalAmount * 100,
-                    currency: "INR",
-                    name: "Sovereign Antiques",
-                    description: "Artifact Acquisition",
-                    handler: (response) => {
+                    cartTotal() { return this.cart.reduce((s, i) => s + i.price, 0); },
+                    saveCart() { localStorage.setItem('cart', JSON.stringify(this.cart)); },
+                    saveOrders() { localStorage.setItem('orders', JSON.stringify(this.orders)); },
+                    saveProducts() { localStorage.setItem('products', JSON.stringify(this.products)); },
+
+                    payWithRazorpay() {
+                        const totalAmount = this.cartTotal();
+                        if (totalAmount <= 0) { this.notify('Error', 'Collection is empty', 'error'); return; }
+
+                        const options = {
+                            key: "rzp_test_placeholder",
+                            amount: totalAmount * 100,
+                            currency: "INR",
+                            name: "Sovereign Antiques",
+                            description: "Artifact Acquisition",
+                            handler: (response) => {
+                                const order = {
+                                    id: Date.now(),
+                                    paymentId: response.razorpay_payment_id,
+                                    date: new Date().toISOString(),
+                                    items: JSON.parse(JSON.stringify(this.cart)),
+                                    total: totalAmount
+                                };
+                                this.orders.unshift(order);
+                                this.saveOrders();
+                                this.downloadInvoice(order);
+                                order.items.forEach(item => {
+                                    const p = this.products.find(prod => prod.id === item.id);
+                                    if (p) p.isSold = true;
+                                });
+                                this.saveProducts();
+                                this.notify('Success', 'Order recorded');
+                                this.cart = [];
+                                this.saveCart();
+                                this.goTo('catalog');
+                            },
+                            modal: { ondismiss: () => { this.notify('Cancelled', 'Payment interrupted', 'error'); } },
+                            theme: { color: "#D4AF37" }
+                        };
+                        const rzp = new Razorpay(options);
+                        rzp.on('payment.failed', (response) => { this.notify('Failed', response.error.description, 'error'); });
+                        rzp.open();
+                    },
+
+                    createTestOrder() {
                         const order = {
-                            id: Date.now(),
-                            paymentId: response.razorpay_payment_id,
+                            id: 'TEST-' + Date.now(),
+                            paymentId: 'TEST-PAYMENT',
                             date: new Date().toISOString(),
-                            items: JSON.parse(JSON.stringify(this.cart)),
-                            total: totalAmount
+                            items: this.products.slice(0, 1),
+                            total: this.products[0]?.price || 10000
                         };
                         this.orders.unshift(order);
                         this.saveOrders();
-                        this.downloadInvoice(order);
-                        
+                        this.notify('Test Order', 'Order added for testing');
+                    },
+
+                    downloadInvoice(order) {
+                        const { jsPDF } = window.jspdf;
+                        const doc = new jsPDF('p', 'mm', 'a4');
+                        let y = 20;
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(20);
+                        doc.text('SOVEREIGN ANTIQUES', 105, y, { align: 'center' });
+                        y += 8;
+                        doc.setFontSize(10);
+                        doc.setFont('helvetica', 'normal');
+                        doc.text('Heritage & History', 105, y, { align: 'center' });
+                        y += 6;
+                        doc.line(20, y, 190, y);
+                        y += 12;
+                        doc.setFontSize(11);
+                        doc.text(`Invoice ID: ${order.id}`, 20, y);
+                        doc.text(`Payment ID: ${order.paymentId}`, 120, y);
+                        y += 6;
+                        doc.text(`Date: ${new Date(order.date).toLocaleString('en-IN')}`, 20, y);
+                        y += 14;
+                        doc.setFont('helvetica', 'bold');
+                        doc.text('Artifact', 20, y);
+                        doc.text('Price (INR)', 190, y, { align: 'right' });
+                        y += 2;
+                        doc.line(20, y, 190, y);
+                        y += 8;
+                        doc.setFont('helvetica', 'normal');
                         order.items.forEach(item => {
-                            const p = this.products.find(prod => prod.id === item.id);
-                            if (p) p.isSold = true;
+                            doc.text(item.name, 20, y);
+                            doc.text(item.price.toLocaleString('en-IN'), 190, y, { align: 'right' });
+                            y += 7;
                         });
+                        y += 5;
+                        doc.line(20, y, 190, y);
+                        y += 10;
+                        doc.setFont('helvetica', 'bold');
+                        doc.text('Total (INR)', 20, y);
+                        doc.text(order.total.toLocaleString('en-IN'), 190, y, { align: 'right' });
+                        y += 20;
+                        doc.setFontSize(9);
+                        doc.setFont('helvetica', 'normal');
+                        doc.text('This is a system-generated invoice. Thank you for acquiring history with Sovereign Antiques.', 20, y);
+                        doc.save(`Invoice-${order.id}.pdf`);
+                    },
+
+                    notify(title, message, type = 'success') {
+                        const id = Date.now();
+                        this.notifications.push({ id, title, message, type, show: true });
+                        setTimeout(() => { this.notifications = this.notifications.filter(n => n.id !== id); }, 3000);
+                    },
+
+                    async loginUser() {
+                        try {
+                            const r = await fetch(`${this.API_URL}/api/login-user`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(this.userLoginForm)
+                            });
+                            const d = await r.json();
+                            if (!r.ok) throw new Error(d.message);
+                            localStorage.setItem('userToken', d.token);
+                            localStorage.setItem('user', JSON.stringify(d.user));
+                            this.user = d.user;
+                            this.isUserLoggedIn = true;
+                            this.userLoginForm = { email: '', password: '' };
+                            this.notify('Welcome Back', d.user.name);
+                            this.view = 'catalog';
+                        } catch (e) { this.notify('Login Failed', e.message, 'error'); }
+                    },
+
+                    logoutUser() {
+                        localStorage.removeItem('userToken');
+                        localStorage.removeItem('user');
+                        this.user = null;
+                        this.isUserLoggedIn = false;
+                        this.notify('Logged Out', 'See you again');
+                    },
+
+                    async signupUser() {
+                        try {
+                            const r = await fetch(`${this.API_URL}/api/signup`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(this.userSignupForm)
+                            });
+                            const d = await r.json();
+                            if (!r.ok) throw new Error(d.message);
+                            this.otpEmail = this.userSignupForm.email;
+                            this.isAwaitingOtp = true;
+                            this.view = 'verify-otp';
+                            this.notify('OTP Sent', 'Check your email');
+                        } catch (e) { this.notify('Error', e.message, 'error'); }
+                    },
+
+                    async verifyOtp() {
+                        try {
+                            const r = await fetch(`${this.API_URL}/api/verify-otp`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email: this.otpEmail, code: this.otpCode })
+                            });
+                            const d = await r.json();
+                            if (!r.ok) { this.notify('Failed', d.message, 'error'); return; }
+                            localStorage.setItem('userToken', d.token);
+                            localStorage.setItem('user', JSON.stringify(d.user));
+                            this.user = d.user;
+                            this.isUserLoggedIn = true;
+                            this.view = 'catalog';
+                            this.notify('Verified', 'Account activated');
+                        } catch (e) { this.notify('Error', e.message || 'Invalid OTP', 'error'); }
+                    },
+
+                    seedData() {
+                        this.products = [
+                            {
+                                id: 1,
+                                name: "18th C. French Astronomical Clock",
+                                price: 3800000,
+                                category: "Horology",
+                                era: "Circa 1780",
+                                isSold: false,
+                                description: "Astronomical complications and lunar phases.",
+                                images: ["https://images.unsplash.com/photo-1509048191080-d2984bad6ae5"],
+                                details: [{ label: "Material", value: "Gilt Bronze" }]
+                            }
+                        ];
                         this.saveProducts();
-                        
-                        this.notify('Success', 'Order recorded');
-                        this.cart = [];
-                        this.saveCart();
-                        this.goTo('catalog');
                     },
-                    modal: {
-                        ondismiss: () => {
-                            this.notify('Cancelled', 'Payment interrupted', 'error');
-                        }
-                    },
-                    theme: { color: "#D4AF37" }
-                };
-                const rzp = new Razorpay(options);
-                rzp.on('payment.failed', (response) => {
-                    this.notify('Failed', response.error.description, 'error');
-                });
-                rzp.open();
-            },
 
-            createTestOrder() {
-                const order = {
-                    id: 'TEST-' + Date.now(),
-                    paymentId: 'TEST-PAYMENT',
-                    date: new Date().toISOString(),
-                    items: this.products.slice(0, 1),
-                    total: this.products[0]?.price || 10000
-                };
-                this.orders.unshift(order);
-                this.saveOrders();
-                this.notify('Test Order', 'Order added for testing');
-            },
-
-            downloadInvoice(order) {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF('p', 'mm', 'a4');
-                let y = 20;
-
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(20);
-                doc.text('SOVEREIGN ANTIQUES', 105, y, { align: 'center' });
-                y += 8;
-                
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                doc.text('Heritage & History', 105, y, { align: 'center' });
-                y += 6;
-                doc.line(20, y, 190, y);
-                
-                y += 12;
-                doc.setFontSize(11);
-                doc.text(`Invoice ID: ${order.id}`, 20, y);
-                doc.text(`Payment ID: ${order.paymentId}`, 120, y);
-                
-                y += 6;
-                doc.text(`Date: ${new Date(order.date).toLocaleString('en-IN')}`, 20, y);
-                
-                y += 14;
-                doc.setFont('helvetica', 'bold');
-                doc.text('Artifact', 20, y);
-                doc.text('Price (INR)', 190, y, { align: 'right' });
-                y += 2;
-                doc.line(20, y, 190, y);
-                
-                y += 8;
-                doc.setFont('helvetica', 'normal');
-                order.items.forEach(item => {
-                    doc.text(item.name, 20, y);
-                    doc.text(item.price.toLocaleString('en-IN'), 190, y, { align: 'right' });
-                    y += 7;
-                });
-                
-                y += 5;
-                doc.line(20, y, 190, y);
-                
-                y += 10;
-                doc.setFont('helvetica', 'bold');
-                doc.text('Total (INR)', 20, y);
-                doc.text(order.total.toLocaleString('en-IN'), 190, y, { align: 'right' });
-                
-                y += 20;
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                doc.text('This is a system-generated invoice. Thank you for acquiring history with Sovereign Antiques.', 20, y);
-                
-                doc.save(`Invoice-${order.id}.pdf`);
-            },
-
-            notify(title, message, type = 'success') {
-                const id = Date.now();
-                this.notifications.push({ id, title, message, type, show: true });
-                setTimeout(() => {
-                    this.notifications = this.notifications.filter(n => n.id !== id);
-                }, 3000);
-            },
-
-            async loginUser() {
-                try {
-                    const r = await fetch(`${this.API_URL}/api/login-user`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(this.userLoginForm)
-                    });
-                    const d = await r.json();
-                    if (!r.ok) throw new Error(d.message);
-                    
-                    localStorage.setItem('userToken', d.token);
-                    localStorage.setItem('user', JSON.stringify(d.user));
-                    
-                    this.user = d.user;
-                    this.isUserLoggedIn = true;
-                    this.userLoginForm = { email: '', password: '' };
-                    this.notify('Welcome Back', d.user.name);
-                    this.view = 'catalog';
-                } catch (e) {
-                    this.notify('Login Failed', e.message, 'error');
-                }
-            },
-
-            logoutUser() {
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('user');
-                this.user = null;
-                this.isUserLoggedIn = false;
-                this.notify('Logged Out', 'See you again');
-            },
-
-            async signupUser() {
-                try {
-                    const r = await fetch(`${this.API_URL}/api/signup`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(this.userSignupForm)
-                    });
-                    const d = await r.json();
-                    if (!r.ok) throw new Error(d.message);
-                    
-                    this.otpEmail = this.userSignupForm.email; 
-                    this.isAwaitingOtp = true;
-                    this.view = 'verify-otp';
-                    this.notify('OTP Sent', 'Check your email');
-                } catch (e) {
-                    this.notify('Error', e.message, 'error');
-                }
-            },
-
-            async verifyOtp() {
-                try {
-                    const r = await fetch(`${this.API_URL}/verify-otp`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: this.otpEmail, code: this.otpCode })
-                    });
-                    const d = await r.json();
-                    if (!r.ok) {
-                        this.notify('Failed', d.message, 'error');
-                        return;
-                    }
-                    
-                    localStorage.setItem('userToken', d.token);
-                    localStorage.setItem('user', JSON.stringify(d.user));
-                    
-                    this.user = d.user;
-                    this.isUserLoggedIn = true;
-                    this.view = 'catalog';
-                    this.notify('Verified', 'Account activated');
-                } catch (e) {
-                    this.notify('Error', e.message || 'Invalid OTP', 'error');
-                }
-            },
-
-            seedData() {
-                this.products = [
-                    {
-                        id: 1,
-                        name: "18th C. French Astronomical Clock",
-                        price: 3800000,
-                        category: "Horology",
-                        era: "Circa 1780",
-                        isSold: false,
-                        description: "Astronomical complications and lunar phases.",
-                        images: ["[https://images.unsplash.com/photo-1509048191080-d2984bad6ae5](https://images.unsplash.com/photo-1509048191080-d2984bad6ae5)"],
-                        details: [{ label: "Material", value: "Gilt Bronze" }]
-                    }
-                ];
-                this.saveProducts();
-            },
-
-            // Stub Admin functions
-            login() {},
-            changeAdminPassword() {},
-            resetToSeed() {},
-            addProduct() {},
-            handleImageUpload() {},
-            addLabel() {},
-            removeLabel() {},
-            editProduct() {},
-            deleteProduct() {},
-            toggleSold() {},
-            resetForm() {},
-            loadAdminDashboard() {},
-            renderAdminChart() {},
-            resetAdminChart() {}
-        }));
-    });
-</script>
-</body> 
+                    // Stub Admin functions to prevent errors if called, though UI is hidden
+                    login() {},
+                    changeAdminPassword() {},
+                    resetToSeed() {},
+                    addProduct() {},
+                    handleImageUpload() {},
+                    addLabel() {},
+                    removeLabel() {},
+                    editProduct() {},
+                    deleteProduct() {},
+                    toggleSold() {},
+                    resetForm() {},
+                    loadAdminDashboard() {},
+                    renderAdminChart() {},
+                    resetAdminChart() {}
+                }));
+            });
+        </script>
+    </body>
 </html>
