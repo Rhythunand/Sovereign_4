@@ -1045,8 +1045,6 @@
                     });
                     }
                 });
-                
-                this.fetchProducts();
             },
 
 
@@ -1649,7 +1647,7 @@
             },
             async verifyOtp() {
                 try { // ✅ Added missing try
-                    const r = await fetch(`${this.API_URL}/verify-otp`, {
+                    const r = await fetch(`${this.API_URL}/api/verify-otp`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1726,6 +1724,7 @@
 </body>
 
 </html>
+
 
 
 
