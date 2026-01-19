@@ -1024,9 +1024,8 @@
                 }
 
                 // Restore products
-                const storedProducts = localStorage.getItem('products');
-                this.products = storedProducts ? JSON.parse(storedProducts) : [];
-                if (!this.products.length) this.seedData();
+                this.products = [];
+                this.fetchProducts();
 
                 // Restore cart & orders
                 this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -1046,6 +1045,8 @@
                     });
                     }
                 });
+                
+                this.fetchProducts();
             },
 
 
@@ -1160,7 +1161,6 @@
                     const p = this.products.find(prod => prod.id === item.id);
                     if (p) p.isSold = true;
                     });
-                    this.saveProducts();
 
                     this.notify('Payment Successful', 'Order recorded');
                     this.cart = [];
@@ -1327,7 +1327,6 @@
                 this.notify('Added', 'Artifact added');
             }
 
-            this.saveProducts();
             this.resetForm();
             },
 
@@ -1340,7 +1339,6 @@
             deleteProduct(id) {
             if (!confirm('Delete permanently?')) return;
             this.products = this.products.filter(p => p.id !== id);
-            this.saveProducts();
             this.notify('Removed', 'Artifact deleted');
             },
 
@@ -1348,7 +1346,6 @@
             const p = this.products.find(x => x.id === id);
             if (p) {
                 p.isSold = !p.isSold;
-                this.saveProducts();
             }
             },
 
@@ -1367,8 +1364,9 @@
             },
 
             saveProducts() {
-            localStorage.setItem('products', JSON.stringify(this.products));
+                // products are persisted on the server
             },
+
 
             /* =======================
             AUTH
@@ -1696,6 +1694,11 @@
             }, 3000);
             },
 
+            async fetchProducts() {
+                const res = await fetch(`${this.API_URL}/api/products`);
+                this.products = await res.json();
+            }
+
             /* =======================
             SEED DATA
             ======================== */
@@ -1715,7 +1718,6 @@
                 details: [{ label: "Material", value: "Gilt Bronze" }]
                 }
             ];
-            this.saveProducts();
             }
         }));
         });
@@ -1724,6 +1726,7 @@
 </body>
 
 </html>
+
 
 
 
