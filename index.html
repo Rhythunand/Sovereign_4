@@ -1052,13 +1052,21 @@
             COMPUTED
             ======================== */
             get filteredProducts() {
-            return this.products.filter(p => {
                 const s = this.searchQuery.toLowerCase();
-                return (
-                p.name.toLowerCase().includes(s) &&
-                (this.activeCategory === 'All' || p.category === this.activeCategory)
-                );
-            });
+            
+                return this.products.filter(p => {
+                    const matchesSearch =
+                        p.name?.toLowerCase().includes(s) ||
+                        p.story?.toLowerCase().includes(s) ||
+                        p.description?.toLowerCase().includes(s) ||
+                        p.era?.toLowerCase().includes(s);
+            
+                    const matchesCategory =
+                        this.activeCategory === 'All' ||
+                        p.category === this.activeCategory;
+            
+                    return matchesSearch && matchesCategory;
+                });
             },
 
             /* =======================
@@ -1724,6 +1732,7 @@
 </body>
 
 </html>
+
 
 
 
