@@ -106,7 +106,7 @@
         </div>
 
         <nav class="fixed top-0 w-full z-50 transition-all duration-500 glass-panel">
-            <div class="px-6 py-4 flex flex-col gap-4">
+            <div class="px-6 py-5 flex flex-col gap-5">
                 <div class="flex justify-between items-center">
                     <h1 @click="goTo('home')" class="font-display text-xl tracking-widest cursor-pointer hover:opacity-70 transition-opacity">SOVEREIGN</h1>
                     <button @click="toggleTheme()" class="p-2 rounded-full bg-black/5 dark:bg-white/10">
@@ -230,10 +230,10 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-10">
+                <div class="grid grid-cols-1 gap-16">
                     <template x-for="(product, index) in filteredProducts" :key="product.id">
                         <div class="group fade-in-up" :style="`animation-delay: ${index * 50}ms`" @click="openProduct(product)" :class="product.isSold ? 'opacity-70' : ''">
-                            <div class="aspect-[4/5] bg-stone-100 dark:bg-stone-900 overflow-hidden relative mb-4 rounded-sm">
+                            <div class="aspect-[4/5] bg-stone-100 dark:bg-stone-900 overflow-hidden relative mb-5 rounded-xl">
                                 <img :src="product.images[0]" class="w-full h-full object-cover" />
                                 <template x-if="product.isSold">
                                     <div class="absolute inset-0 flex items-center justify-center bg-black/20">
@@ -246,10 +246,10 @@
 
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h3 class="font-serif text-lg dark:text-white" :class="product.isSold ? 'line-through decoration-stone-500' : ''" x-text="product.name"></h3>
+                                    <h3 class="font-serif text-xl leading-tight dark:text-white" :class="product.isSold ? 'line-through decoration-stone-500' : ''" x-text="product.name"></h3>
                                     <p class="text-[9px] uppercase tracking-widest text-stone-400 mt-1" x-text="product.era"></p>
                                 </div>
-                                <span class="font-sans text-xs font-medium dark:text-stone-300 bg-stone-100 dark:bg-stone-900 px-2 py-1 rounded" :class="product.isSold ? 'opacity-50' : ''" x-text="formatCurrency(product.price)"></span>
+                                <span class="font-sans text-[11px] font-medium dark:text-stone-300 bg-stone-50 dark:bg-stone-950 px-3 py-1.5 rounded-full"></span>
                             </div>
                         </div>
                     </template>
@@ -288,7 +288,7 @@
                         </div>
                     </div>
 
-                    <div class="lg:hidden h-[50vh] overflow-hidden relative">
+                    <div class="lg:hidden h-[60vh] overflow-hidden relative">
                         <img :src="selectedProduct.images[activeImg]" class="w-full h-full object-cover" @click="lightbox = true" />
                     </div>
 
