@@ -1701,8 +1701,20 @@
             },
 
             async fetchProducts() {
-                const res = await fetch(`${this.API_URL}/api/products`);
-                this.products = await res.json();
+                try {
+                    const res = await fetch(`${this.API_URL}/api/products`);
+                    if (!res.ok) throw new Error('Failed to fetch products');
+            
+                    const rawData = await res.json();
+            
+                    // FIX: Map MongoDB '_id' to 'id'
+                    this.products = rawData.map(item => ({
+                        ...item,
+                        id: item._id || item.id
+                    }));
+                } catch (e) {
+                    console.error("Fetch error:", e);
+                }
             },
 
             /* =======================
@@ -1732,6 +1744,7 @@
 </body>
 
 </html>
+
 
 
 
