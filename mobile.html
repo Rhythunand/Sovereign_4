@@ -524,7 +524,7 @@
                             
                             const rawData = await res.json();
                             
-                            // FIX: Map MongoDB '_id' to 'id' so Alpine keys work
+                            // FIX: Map MongoDB '_id' to 'id' so mobile view works
                             this.products = rawData.map(item => ({
                                 ...item,
                                 id: item._id || item.id 
