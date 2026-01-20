@@ -521,7 +521,15 @@
                         try {
                             const res = await fetch(`${this.API_URL}/api/products`);
                             if (!res.ok) throw new Error('Failed to fetch products');
-                            this.products = await res.json();
+                            
+                            const rawData = await res.json();
+                            
+                            // FIX: Map MongoDB '_id' to 'id' so Alpine keys work
+                            this.products = rawData.map(item => ({
+                                ...item,
+                                id: item._id || item.id 
+                            }));
+                    
                         } catch (e) {
                             console.error(e);
                             this.notify('Error', 'Failed to load archive', 'error');
