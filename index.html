@@ -70,11 +70,14 @@
         }
 
         /* Animations */
-        .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(20px); }
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         
         @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -241,35 +244,43 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
                 <template x-for="(product, index) in filteredProducts" :key="product.id">
                     <div class="group cursor-pointer fade-in-up" 
-                        :style="`animation-delay: ${index * 50}ms`" 
-                        @click="openProduct(product)"
-                        :class="product.isSold ? 'opacity-60 grayscale' : ''"> <div class="image-zoom-container aspect-[3/4] bg-stone-100 dark:bg-stone-900 overflow-hidden relative mb-6">
-                            <img :src="product.images[0]" class="w-full h-full object-cover">
+                         :style="`animation-delay: ${index * 50}ms`" 
+                         @click="openProduct(product)">
+                        
+                        <div class="aspect-[3/4] bg-stone-100 dark:bg-stone-900 overflow-hidden relative mb-4 border border-stone-200/50 dark:border-stone-800/50 transition-all duration-500 group-hover:shadow-2xl">
+                            <img :src="product.images[0]" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                 :class="product.isSold ? 'opacity-60 grayscale' : ''">
                             
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                                <p class="text-white text-[10px] uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-                                x-text="product.isSold ? 'Private Collection' : 'View Details'"></p>
+                            <div class="absolute inset-0 bg-stone-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                                <span class="px-6 py-2 bg-white/90 dark:bg-stone-900/90 backdrop-blur-md text-[10px] font-bold uppercase tracking-[0.3em] translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
+                                      x-text="product.isSold ? 'Private Archive' : 'Explore Piece'"></span>
                             </div>
-
+                
                             <template x-if="product.isSold">
-                                <div class="absolute inset-0 flex items-center justify-center z-10">
-                                    <div class="bg-red-600/90 text-white px-6 py-2 backdrop-blur-sm -rotate-12 border border-white/20 shadow-xl">
-                                        <span class="text-[10px] font-bold uppercase tracking-[0.3em]">Sold</span>
-                                    </div>
+                                <div class="absolute top-0 right-0 p-4">
+                                    <span class="bg-stone-900 text-white dark:bg-white dark:text-black text-[9px] font-bold uppercase tracking-widest px-3 py-1 shadow-lg">
+                                        Acquired
+                                    </span>
                                 </div>
                             </template>
                         </div>
                         
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-serif text-xl dark:text-white group-hover:text-gold-500 transition-colors" 
-                                    :class="product.isSold ? 'line-through decoration-stone-500' : ''"
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-baseline">
+                                <h3 class="font-serif text-lg md:text-xl dark:text-white transition-colors duration-300 group-hover:text-gold-500" 
+                                    :class="product.isSold ? 'text-stone-400' : ''"
                                     x-text="product.name"></h3>
-                                <p class="text-[10px] uppercase tracking-widest text-stone-400 mt-1" x-text="product.era"></p>
+                                <span class="font-sans text-xs font-semibold tracking-tight dark:text-stone-300" 
+                                      :class="product.isSold ? 'opacity-30' : ''"
+                                      x-text="formatCurrency(product.price)"></span>
                             </div>
-                            <span class="font-sans text-sm font-medium dark:text-stone-300" 
-                                :class="product.isSold ? 'opacity-50' : ''"
-                                x-text="formatCurrency(product.price)"></span>
+                            
+                            <div class="flex items-center gap-3">
+                                <p class="text-[10px] uppercase tracking-[0.2em] text-gold-600 font-bold" x-text="product.category"></p>
+                                <span class="h-px w-4 bg-stone-300 dark:bg-stone-700"></span>
+                                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-medium" x-text="product.era"></p>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -1744,6 +1755,7 @@
 </body>
 
 </html>
+
 
 
 
